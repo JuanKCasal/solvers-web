@@ -1,0 +1,24 @@
+# Dependencias y build
+node_modules/
+dist/
+.astro/
+
+# Entorno
+.env
+.env.*
+!.env.example
+
+# Sistema / editores
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Logs
+npm-debug.log*
+*.log
+
+# Material original pesado que no se versiona
+fuentes/originales/
