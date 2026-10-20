@@ -4,7 +4,7 @@ Estado vivo del proyecto. **Actualizar al final de cada sesión** (qué se hizo,
 
 ## Estado actual — 19-oct-2026 (sesión 2)
 
-**Fase:** 1 · Sitio v1 completo (ES/EN) listo para publicar. Falta activar GitHub Pages, DNS y formulario.
+**Fase:** 1 · Sitio v1 publicado en vista previa: https://juankcasal.github.io/solvers-web/ — falta DNS del dominio y formulario.
 
 ### Hecho
 **Sesión 1**
@@ -23,19 +23,18 @@ Estado vivo del proyecto. **Actualizar al final de cada sesión** (qué se hizo,
 
 ## Próximos pasos
 
-1. **Push** del commit de la sesión 2 (`git push` desde `C:\dev\solvers-web`).
-2. **Repositorio público** (Settings → General → Danger Zone → Change visibility), requisito de Pages gratis.
-3. **Activar Pages:** Settings → Pages → Build and deployment → Source = **GitHub Actions**.
-4. Elegir una opción:
-   - **A · Publicar ya en github.io (vista previa):** Settings → Secrets and variables → Actions → *Variables* → crear
-     `SITE_URL = https://juankcasal.github.io` y `BASE_PATH = /solvers-web` → Actions → "Desplegar en GitHub Pages" → Run workflow.
-     Sitio en `https://juankcasal.github.io/solvers-web/`. **Borrar ambas variables** al pasar al dominio.
-   - **B · Ir directo al dominio:** configurar DNS (abajo) y luego Settings → Pages → Custom domain = `solversindustriales.com`.
-5. **Formulario:** crear cuenta en Web3Forms (gratis, solo pide el correo destino) o Formspree y poner `endpoint`/`accessKey`
+Hecho el 19-oct-2026: push del sitio v1; repo confirmado **público**; Pages → Source = **GitHub Actions**;
+variables de repositorio `SITE_URL=https://juankcasal.github.io` y `BASE_PATH=/solvers-web`; workflow ejecutado con éxito (run #2).
+
+1. **Pasar al dominio:** configurar DNS (abajo) → repo Settings → Pages → Custom domain = `solversindustriales.com`
+   → **borrar** las variables `SITE_URL` y `BASE_PATH` (Settings → Secrets and variables → Actions → Variables)
+   → volver a ejecutar el workflow → activar **Enforce HTTPS** cuando GitHub emita el certificado.
+2. **Formulario:** crear cuenta en Web3Forms (gratis, solo pide el correo destino) o Formspree y poner `endpoint`/`accessKey`
    en `src/config/site.ts` → `CONTACT_FORM`.
-6. Revisión de textos con Solvers (sobre todo la versión en inglés y los títulos de proyectos).
-7. Completar contenido pendiente (ver preguntas abiertas) y reemplazar fotos por originales en alta.
-8. Tras publicar: Google Search Console (verificar dominio por DNS TXT, enviar `sitemap-index.xml`) y Lighthouse.
+3. Revisión de textos con Solvers (sobre todo la versión en inglés y los títulos de proyectos).
+4. Completar contenido pendiente (ver preguntas abiertas) y reemplazar fotos por originales en alta.
+5. Tras publicar en el dominio: Google Search Console (verificar dominio por DNS TXT, enviar `sitemap-index.xml`) y Lighthouse.
+6. Aviso de GitHub: `ubuntu-latest` migra a Ubuntu 26 desde el 19-oct-2026; si el build fallara por eso, fijar `runs-on: ubuntu-24.04`.
 
 ## Cómo trabajar en local (Windows)
 
@@ -102,3 +101,4 @@ desde Squarespace Domains — confirmar dónde está):
 |---|---|---|
 | 2026-10-19 | 1 | Extracción del brochure, logo vectorial, CLAUDE.md, HANDOFF.md, primer commit; push a GitHub. |
 | 2026-10-19 | 2 | Sitio v1 en Astro 7 (ES/EN, 22 páginas), workflow de Pages, SEO, accesibilidad verificada. |
+| 2026-10-19 | 3 | GitHub Pages activado (Actions) y sitio publicado en juankcasal.github.io/solvers-web. |
