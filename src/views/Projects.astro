@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Gallery from '../components/Gallery.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { PROJECTS } from '../data/proyectos';
+import { SERVICES } from '../data/servicios';
+import { ROUTES, href, serviceUrl, type Lang } from '../i18n/routes';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const es = lang === 'es';
+const c = es
+  ? {
+      title: 'Proyectos',
+      description: 'Trabajos ejecutados por Solvers Industriales: reconstrucción de diafragmas de compresor en Refinería El Palito, reparación de bombas, tuberías de proceso, refractarios y rehabilitación de plantas potabilizadoras.',
+      lead: 'Trabajos ejecutados para la industria petrolera, petroquímica e hidrológica venezolana.',
+      jump: 'Ir a',
+      service: 'Servicio',
+    }
+  : {
+      title: 'Projects',
+      description: 'Work completed by Solvers Industriales: compressor diaphragm reconstruction at El Palito Refinery, pump repair, process piping, refractories and water treatment plant rehabilitation.',
+      lead: 'Work carried out for Venezuela’s oil, petrochemical and water industries.',
+      jump: 'Jump to',
+      service: 'Service',
+    };
+const serviceOf = (id: string) => SERVICES.find((s) => s.id === id)!;
+---
+<BaseLayout lang={lang} title={c.title} description={c.description} alternates={ROUTES.projects}>
+  <PageHero lang={lang} title={c.title} lead={c.lead} crumbs={[{ label: c.title }]} />
+
+  <section class="section section--alt">
+    <div class="container">
+      <nav class="jump" aria-label={c.jump}>
+        <ul>{PROJECTS.map((p) => <li><a href={`#${p.id}`}>{p.title[lang]}</a></li>)}</ul>
+      </nav>
+
+      <div class="projects">
+        {PROJECTS.map((p) => {
+          const s = serviceOf(p.service);
+          return (
+            <article class="project" id={p.id}>
+              <div class="project__head">
+                <p class="project__meta">
+                  {p.client && <span class="project__client">{p.client}</span>}
+                  <span>{c.service}: <a href={href(serviceUrl(s.slug, lang))}>{s.title[lang]}</a></span>
+                </p>
+                <h2>{p.title[lang]}</h2>
+                <p>{p.description[lang]}</p>
+              </div>
+              <Gallery photos={p.photos} lang={lang} id={p.id} />
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand lang={lang} />
+</BaseLayout>
+
+<style>
+  .jump ul { list-style: none; display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-7); }
+  .jump a {
+    display: inline-block; padding: 0.4rem 0.85rem; border: 1px solid var(--color-borde); border-radius: 999px; background: #fff;
+    color: var(--color-azul); text-decoration: none; font-size: 0.95rem; font-weight: 500;
+  }
+  .jump a:hover { border-color: var(--color-naranja); color: var(--color-naranja-texto); }
+  .projects { display: grid; gap: var(--space-6); }
+  .project { background: #fff; border: 1px solid var(--color-borde); border-left: 5px solid var(--color-naranja); border-radius: var(--radius-lg); padding: var(--space-5); }
+  .project__head { max-width: 820px; margin-bottom: var(--space-5); }
+  .project__meta { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); margin: 0 0 var(--space-2); font-size: var(--fs-300); color: var(--color-texto-suave); }
+  .project__client { font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-naranja-texto); }
+  .project h2 { font-size: var(--fs-600); margin-bottom: var(--space-2); }
+  .project__head > p:last-child { margin: 0; }
+</style>

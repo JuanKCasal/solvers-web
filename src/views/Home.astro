@@ -1,0 +1,228 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { img } from '../data/images';
+import { SERVICES } from '../data/servicios';
+import { PROJECTS } from '../data/proyectos';
+import { ROUTES, route, href, type Lang } from '../i18n/routes';
+import { useT } from '../i18n/ui';
+import { SITE, whatsappUrl } from '../config/site';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const t = useT(lang);
+const es = lang === 'es';
+
+const copy = es
+  ? {
+      title: 'Ingeniería mecánica, eléctrica y civil para la industria',
+      description:
+        'Solvers Industriales, C.A.: mantenimiento industrial, metalmecánica, soldadura de tuberías, refractarios, obras civiles, procura y alquiler de maquinaria pesada en Venezuela. Clientes como PDVSA, Pequiven e Hidroven.',
+      eyebrow: 'Ingeniería · Mantenimiento · Procura',
+      h1: 'Soluciones de ingeniería que mantienen la industria en marcha',
+      lead: 'Servicios de ingeniería mecánica, metalmecánica, eléctrica y civil para los sectores petrolero, petroquímico e hidrológico de Venezuela.',
+      trusted: 'Han confiado en nosotros',
+      stats: [
+        { value: '+6', label: 'años de operaciones en todo el país' },
+        { value: '15–30', label: 'años de experiencia de nuestro equipo en Oil & Gas e hidrológico' },
+        { value: '6', label: 'líneas de servicio integradas' },
+      ],
+      servicesEyebrow: 'Servicios',
+      servicesTitle: 'Todo lo que su planta necesita, con un solo aliado',
+      servicesLead: 'Desde el mantenimiento de equipos críticos hasta la obra civil y la maquinaria pesada.',
+      aboutEyebrow: 'Quiénes somos',
+      aboutTitle: 'Experiencia técnica al servicio de proyectos de inversión',
+      aboutText:
+        'Somos una empresa venezolana respaldada por un equipo con 15 a 30 años de experiencia en los sectores de petróleo y gas e hidrológico. Nuestros profesionales aportan un profundo conocimiento técnico que nos permite ofrecer soluciones de valor agregado para proyectos de inversión de capital.',
+      aboutLink: 'Conozca la empresa',
+      projectsEyebrow: 'Trabajos ejecutados',
+      projectsTitle: 'Resultados en campo',
+      projectsLead: 'Una muestra de los trabajos que hemos ejecutado para nuestros clientes.',
+      photos: 'fotos',
+    }
+  : {
+      title: 'Mechanical, electrical and civil engineering for industry',
+      description:
+        'Solvers Industriales, C.A.: industrial maintenance, metalworking, pipeline welding, refractories, civil works, procurement and heavy equipment rental in Venezuela. Clients include PDVSA, Pequiven and Hidroven.',
+      eyebrow: 'Engineering · Maintenance · Procurement',
+      h1: 'Engineering solutions that keep industry running',
+      lead: 'Mechanical, metalworking, electrical and civil engineering services for the oil, petrochemical and water sectors in Venezuela.',
+      trusted: 'Trusted by',
+      stats: [
+        { value: '+6', label: 'years of operations nationwide' },
+        { value: '15–30', label: 'years of team experience in oil & gas and water' },
+        { value: '6', label: 'integrated service lines' },
+      ],
+      servicesEyebrow: 'Services',
+      servicesTitle: 'Everything your plant needs, from a single partner',
+      servicesLead: 'From critical equipment maintenance to civil works and heavy machinery.',
+      aboutEyebrow: 'About us',
+      aboutTitle: 'Technical expertise for capital investment projects',
+      aboutText:
+        'We are a Venezuelan company backed by a team with 15 to 30 years of experience in the oil & gas and water sectors. Our professionals bring deep technical expertise, enabling us to deliver value-added solutions for capital investment projects.',
+      aboutLink: 'About the company',
+      projectsEyebrow: 'Completed work',
+      projectsTitle: 'Results in the field',
+      projectsLead: 'A sample of the work we have carried out for our clients.',
+      photos: 'photos',
+    };
+
+const heroPhotos = [
+  { src: 'refractarios/refractarios-02.jpg', alt: es ? 'Técnicos en trabajos de tratamiento térmico' : 'Technicians performing heat treatment work' },
+  { src: 'tuberia-proceso/tuberia-05.jpg', alt: es ? 'Corte de tubería con chispas' : 'Pipe cutting with sparks' },
+  { src: 'compresor/compresor-01.jpg', alt: es ? 'Compresor de gas en mantenimiento' : 'Gas compressor under maintenance' },
+];
+
+const featured = ['compresor-el-palito', 'planta-combustible', 'hidrocaribe']
+  .map((id) => PROJECTS.find((p) => p.id === id)!)
+  .filter(Boolean);
+---
+<BaseLayout lang={lang} title={copy.title} description={copy.description} alternates={ROUTES.home}>
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__text">
+        <p class="eyebrow">{copy.eyebrow}</p>
+        <h1>{copy.h1}</h1>
+        <p class="hero__lead">{copy.lead}</p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href={route('contact', lang)}>{t('cta.quote')} <Icon name="arrow" /></a>
+          <a class="btn btn--ghost" href={route('services', lang)}>{t('nav.services')}</a>
+        </div>
+      </div>
+      <div class="hero__mosaic">
+        {heroPhotos.map((p, i) => (
+          <Image src={img(p.src)} alt={p.alt} widths={[300, 520]} sizes="(min-width: 960px) 280px, 46vw"
+            loading={i < 2 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : undefined} class={`m${i + 1}`} />
+        ))}
+        <span class="hero__accent" aria-hidden="true"></span>
+      </div>
+    </div>
+    <div class="hero__clients">
+      <div class="container">
+        <p><span>{copy.trusted}:</span> {SITE.clients.join(' · ')}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats" aria-label={es ? 'Cifras' : 'Key figures'}>
+    <div class="container stats__grid">
+      {copy.stats.map((s) => (
+        <div class="stat">
+          <span class="stat__value">{s.value}</span>
+          <span class="stat__label">{s.label}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">{copy.servicesEyebrow}</p>
+        <h2>{copy.servicesTitle}</h2>
+        <p>{copy.servicesLead}</p>
+      </div>
+      <div class="grid grid--3">
+        {SERVICES.map((s) => <ServiceCard service={s} lang={lang} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div class="about-photos">
+        <Image src={img('refractarios/refractarios-01.jpg')} alt={es ? 'Técnico revistiendo un equipo con aislamiento' : 'Technician applying insulation to equipment'} widths={[360, 560]} sizes="(min-width: 900px) 280px, 50vw" loading="lazy" />
+        <Image src={img('combustible/combustible-03.jpg')} alt={es ? 'Personal de Solvers en planta de combustible' : 'Solvers crew at a fuel plant'} widths={[360, 560]} sizes="(min-width: 900px) 280px, 50vw" loading="lazy" />
+      </div>
+      <div>
+        <p class="eyebrow">{copy.aboutEyebrow}</p>
+        <h2>{copy.aboutTitle}</h2>
+        <p class="prose-lg">{copy.aboutText}</p>
+        <a class="link-arrow" href={route('about', lang)}>{copy.aboutLink} <Icon name="arrow" /></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">{copy.projectsEyebrow}</p>
+        <h2>{copy.projectsTitle}</h2>
+        <p>{copy.projectsLead}</p>
+      </div>
+      <div class="grid grid--3">
+        {featured.map((p) => (
+          <article class="proj-card">
+            <Image src={img(p.photos[0].src)} alt="" widths={[400, 640]} sizes="(min-width: 1100px) 370px, (min-width: 700px) 45vw, 100vw" loading="lazy" />
+            <div class="proj-card__body">
+              {p.client && <p class="proj-card__client">{p.client}</p>}
+              <h3><a href={`${route('projects', lang)}#${p.id}`}>{p.title[lang]}</a></h3>
+              <p class="proj-card__desc">{p.description[lang]}</p>
+              <span class="proj-card__meta">{p.photos.length} {copy.photos}</span>
+            </div>
+          </article>
+        ))}
+      </div>
+      <p class="more"><a class="btn btn--ghost" href={route('projects', lang)}>{t('cta.allProjects')} <Icon name="arrow" /></a></p>
+    </div>
+  </section>
+
+  <CtaBand lang={lang} />
+</BaseLayout>
+
+<style>
+  .hero { position: relative; background: var(--color-azul); color: #dfe5f2; overflow: hidden; }
+  .hero::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background:
+      linear-gradient(115deg, transparent 58%, rgb(254 54 0 / 0.08) 58%),
+      repeating-linear-gradient(135deg, rgb(255 255 255 / 0.03) 0 2px, transparent 2px 22px);
+  }
+  .hero__inner { position: relative; display: grid; gap: var(--space-7); align-items: center; padding-block: var(--space-8); }
+  @media (min-width: 960px) { .hero__inner { grid-template-columns: 1.1fr 1fr; padding-block: var(--space-9); } }
+  .hero h1 { color: #fff; font-size: clamp(2.4rem, 1.6rem + 3.6vw, 4.25rem); text-transform: uppercase; letter-spacing: 0.01em; }
+  .hero__lead { font-size: var(--fs-500); color: #c9d2e4; max-width: 560px; margin-bottom: var(--space-6); }
+
+  .hero__mosaic { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+  .hero__mosaic :global(img) { width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius); aspect-ratio: 4 / 3; position: relative; z-index: 1; }
+  .hero__mosaic :global(.m1) { aspect-ratio: 3 / 4; grid-row: span 2; }
+  @media (min-width: 560px) {
+    .hero__mosaic { grid-template-columns: 1.1fr 1fr; }
+  }
+  .hero__accent { position: absolute; z-index: 0; right: -14px; bottom: -14px; width: 45%; height: 55%; background: var(--color-naranja); border-radius: var(--radius); }
+
+  .hero__clients { position: relative; background: rgb(0 0 0 / 0.22); border-top: 1px solid rgb(255 255 255 / 0.08); }
+  .hero__clients p {
+    margin: 0; padding-block: var(--space-4); font-family: var(--font-display); font-weight: 600; font-size: 1.1rem;
+    letter-spacing: 0.06em; text-transform: uppercase; color: #fff;
+  }
+  .hero__clients span { color: #ff8a66; margin-right: var(--space-2); }
+
+  .stats { border-bottom: 1px solid var(--color-borde); }
+  .stats__grid { display: grid; gap: var(--space-5); padding-block: var(--space-6); }
+  @media (min-width: 720px) { .stats__grid { grid-template-columns: repeat(3, 1fr); } }
+  .stat { display: flex; align-items: center; gap: var(--space-4); }
+  .stat__value { font-family: var(--font-display); font-weight: 700; font-size: 3rem; line-height: 1; color: var(--color-naranja); flex: none; }
+  .stat__label { font-weight: 500; color: var(--color-tinta); line-height: 1.35; }
+
+  .about-photos { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+  .about-photos :global(img) { width: 100%; height: auto; object-fit: cover; border-radius: var(--radius); aspect-ratio: 3 / 4; }
+  .about-photos :global(img:last-child) { margin-top: var(--space-7); }
+  .prose-lg { font-size: 1.15rem; }
+
+  .proj-card { position: relative; background: var(--color-azul-900); border: 1px solid rgb(255 255 255 / 0.1); border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column; }
+  .proj-card :global(img) { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+  .proj-card__body { padding: var(--space-5); display: flex; flex-direction: column; flex: 1; }
+  .proj-card__client { margin: 0 0 var(--space-2); font-size: var(--fs-300); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #ff8a66; }
+  .proj-card h3 { font-size: 1.5rem; }
+  .proj-card h3 a { color: #fff; text-decoration: none; }
+  .proj-card h3 a::after { content: ''; position: absolute; inset: 0; }
+  .proj-card:hover { border-color: var(--color-naranja); }
+  .proj-card:focus-within { outline: 3px solid var(--color-naranja); outline-offset: 2px; }
+  .proj-card__desc { color: #c4cde0; flex: 1; }
+  .proj-card__meta { font-size: var(--fs-300); color: #9fb0d0; }
+  .more { margin: var(--space-6) 0 0; }
+</style>

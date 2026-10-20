@@ -1,0 +1,10 @@
+---
+import View from '../../views/ServiceDetail.astro';
+import { DETAIL_SERVICES } from '../../data/servicios';
+
+export function getStaticPaths() {
+  return DETAIL_SERVICES.map((service) => ({ params: { slug: service.slug.es }, props: { service } }));
+}
+const { service } = Astro.props;
+---
+<View lang="es" service={service} />

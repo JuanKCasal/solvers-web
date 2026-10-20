@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { SERVICES } from '../data/servicios';
+import { ROUTES, type Lang } from '../i18n/routes';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const es = lang === 'es';
+const c = es
+  ? {
+      title: 'Servicios',
+      description: 'Servicios de Solvers Industriales: proyectos y mantenimiento industrial, mantenimiento mecánico, refractarios y aislamiento térmico, obras civiles, procura nacional y alquiler de maquinaria pesada.',
+      lead: 'Seis líneas de servicio para acompañar la operación, el mantenimiento y los proyectos de su planta.',
+    }
+  : {
+      title: 'Services',
+      description: 'Solvers Industriales services: industrial projects and maintenance, mechanical maintenance, refractories and thermal insulation, civil works, national procurement and heavy equipment rental.',
+      lead: 'Six service lines to support your plant’s operations, maintenance and projects.',
+    };
+---
+<BaseLayout lang={lang} title={c.title} description={c.description} alternates={ROUTES.services}>
+  <PageHero lang={lang} title={c.title} lead={c.lead} crumbs={[{ label: c.title }]} />
+  <section class="section section--alt">
+    <div class="container">
+      <div class="grid grid--3">
+        {SERVICES.map((s) => <ServiceCard service={s} lang={lang} />)}
+      </div>
+    </div>
+  </section>
+  <CtaBand lang={lang} />
+</BaseLayout>

@@ -1,0 +1,77 @@
+---
+import logoBlanco from '../assets/brand/logo-solvers-blanco.svg?url';
+import Icon from './Icon.astro';
+import { route, serviceUrl, href, type Lang } from '../i18n/routes';
+import { useT } from '../i18n/ui';
+import { SITE, whatsappUrl } from '../config/site';
+import { SERVICES } from '../data/servicios';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const t = useT(lang);
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div class="site-footer__brand">
+      <img src={logoBlanco} alt="Solvers Industriales C.A." width="178" height="64" loading="lazy" />
+      <p>{t('footer.tagline')}</p>
+    </div>
+
+    <nav aria-labelledby="f-servicios">
+      <h2 id="f-servicios">{t('footer.services')}</h2>
+      <ul>
+        {SERVICES.map((s) => (
+          <li><a href={s.link ? route('equipment', lang) : href(serviceUrl(s.slug, lang))}>{s.title[lang]}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <nav aria-labelledby="f-enlaces">
+      <h2 id="f-enlaces">{t('footer.links')}</h2>
+      <ul>
+        <li><a href={route('home', lang)}>{t('nav.home')}</a></li>
+        <li><a href={route('about', lang)}>{t('nav.about')}</a></li>
+        <li><a href={route('projects', lang)}>{t('nav.projects')}</a></li>
+        <li><a href={route('equipment', lang)}>{t('nav.equipment')}</a></li>
+        <li><a href={route('contact', lang)}>{t('nav.contact')}</a></li>
+      </ul>
+    </nav>
+
+    <div>
+      <h2>{t('footer.contact')}</h2>
+      <ul class="site-footer__contact">
+        {SITE.phones.map((p) => (
+          <li><Icon name="phone" size={18} /><a href={`tel:${p.tel}`}>{p.display}</a></li>
+        ))}
+        <li><Icon name="chat" size={18} /><a href={whatsappUrl(t('cta.whatsappText'))} rel="noopener" target="_blank">{t('contact.whatsapp')}</a></li>
+        <li><Icon name="mail" size={18} /><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="site-footer__bottom">
+    <div class="container">
+      <p>© {year} {SITE.legalName} · RIF {SITE.rif}. {t('footer.rights')}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer { background: var(--color-azul-900); color: #b9c3d8; font-size: 1rem; }
+  .site-footer__grid { display: grid; gap: var(--space-6); padding-block: var(--space-8) var(--space-7); }
+  @media (min-width: 720px) { .site-footer__grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .site-footer__grid { grid-template-columns: 1.3fr 1.2fr 0.8fr 1.1fr; } }
+  .site-footer__brand img { height: 64px; width: auto; margin-bottom: var(--space-4); }
+  .site-footer__brand p { max-width: 320px; }
+  .site-footer h2 {
+    font-size: 1.05rem; color: #fff; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: var(--space-4);
+  }
+  .site-footer ul { list-style: none; display: grid; gap: var(--space-2); }
+  .site-footer a { color: #dbe2f0; text-decoration: none; }
+  .site-footer a:hover { color: #fff; text-decoration: underline; }
+  .site-footer__contact li { display: flex; align-items: center; gap: var(--space-3); }
+  .site-footer__contact :global(svg) { color: var(--color-naranja); flex: none; }
+  .site-footer__contact a { overflow-wrap: anywhere; }
+  .site-footer__bottom { border-top: 1px solid rgb(255 255 255 / 0.1); padding-block: var(--space-5); font-size: var(--fs-300); }
+  .site-footer__bottom p { margin: 0; }
+</style>

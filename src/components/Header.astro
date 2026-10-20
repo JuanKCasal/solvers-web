@@ -1,0 +1,132 @@
+---
+import logoBlanco from '../assets/brand/logo-solvers-blanco.svg?url';
+import Icon from './Icon.astro';
+import { ROUTES, href, route, type Alternates, type Lang, type RouteKey } from '../i18n/routes';
+import { useT } from '../i18n/ui';
+
+interface Props { lang: Lang; alternates: Alternates; }
+const { lang, alternates } = Astro.props;
+const t = useT(lang);
+const other: Lang = lang === 'es' ? 'en' : 'es';
+
+const items: { key: RouteKey; label: string }[] = [
+  { key: 'about', label: t('nav.about') },
+  { key: 'services', label: t('nav.services') },
+  { key: 'projects', label: t('nav.projects') },
+  { key: 'equipment', label: t('nav.equipment') },
+];
+
+// Ruta actual sin base, para marcar el ítem activo.
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const current = Astro.url.pathname.replace(base, '') || '/';
+const isActive = (key: RouteKey) => current.startsWith(ROUTES[key][lang]);
+---
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="site-header__logo" href={route('home', lang)}>
+      <img src={logoBlanco} alt="Solvers Industriales C.A." width="144" height="52" />
+    </a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menu-principal"
+      data-label-open={t('nav.menu')} data-label-close={t('nav.close')}>
+      <span class="nav-toggle__open"><Icon name="menu" /></span>
+      <span class="nav-toggle__close"><Icon name="close" /></span>
+      <span class="visually-hidden nav-toggle__label">{t('nav.menu')}</span>
+    </button>
+
+    <nav id="menu-principal" class="site-nav" aria-label={t('nav.main')}>
+      <ul>
+        {items.map((it) => (
+          <li>
+            <a href={route(it.key, lang)} aria-current={isActive(it.key) ? 'page' : undefined}>{it.label}</a>
+          </li>
+        ))}
+      </ul>
+      <div class="site-nav__actions">
+        <a class="lang-switch" href={href(alternates[other])} hreflang={other} lang={other}
+          aria-label={t('lang.switchLabel')}>
+          <Icon name="globe" size={18} />
+          <span>{t('lang.switchShort')}</span>
+        </a>
+        <a class="btn btn--primary site-nav__cta" href={route('contact', lang)}
+          aria-current={isActive('contact') ? 'page' : undefined}>{t('nav.contact')}</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('.nav-toggle');
+  const nav = document.getElementById('menu-principal');
+  if (btn && nav) {
+    const label = btn.querySelector('.nav-toggle__label');
+    const set = (open: boolean) => {
+      btn.setAttribute('aria-expanded', String(open));
+      document.body.classList.toggle('nav-open', open);
+      if (label) label.textContent = open ? btn.dataset.labelClose! : btn.dataset.labelOpen!;
+    };
+    btn.addEventListener('click', () => set(btn.getAttribute('aria-expanded') !== 'true'));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') { set(false); btn.focus(); }
+    });
+    window.matchMedia('(min-width: 960px)').addEventListener('change', (e) => { if (e.matches) set(false); });
+  }
+</script>
+
+<style>
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--color-azul);
+    border-bottom: 3px solid var(--color-naranja);
+  }
+  .site-header__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--space-5); min-height: var(--header-h); }
+  .site-header__logo { display: block; flex: none; padding-block: var(--space-2); }
+  .site-header__logo img { height: 52px; width: auto; }
+
+  .nav-toggle {
+    display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px;
+    background: transparent; border: 2px solid rgb(255 255 255 / 0.35); border-radius: var(--radius); color: #fff; cursor: pointer;
+  }
+  .nav-toggle__close { display: none; }
+  :global(body.nav-open) .nav-toggle__open { display: none; }
+  :global(body.nav-open) .nav-toggle__close { display: inline-flex; }
+
+  .site-nav {
+    display: none; position: fixed; inset: calc(var(--header-h) + 3px) 0 0 0; z-index: 49;
+    background: var(--color-azul); padding: var(--space-5) var(--gutter) var(--space-7); overflow-y: auto;
+  }
+  :global(body.nav-open) .site-nav { display: block; }
+  :global(body.nav-open) { overflow: hidden; }
+  .site-nav ul { list-style: none; display: grid; }
+  .site-nav ul a {
+    display: block; padding: var(--space-4) 0; border-bottom: 1px solid rgb(255 255 255 / 0.12);
+    font-family: var(--font-display); font-weight: 600; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 0.04em;
+    color: #fff; text-decoration: none;
+  }
+  .site-nav ul a[aria-current='page'] { color: #ff8a66; }
+  .site-nav__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4); margin-top: var(--space-6); }
+  .lang-switch {
+    display: inline-flex; align-items: center; gap: var(--space-2); min-height: 44px; padding: 0 var(--space-3);
+    color: #fff; text-decoration: none; font-weight: 600; letter-spacing: 0.06em;
+    border: 1px solid rgb(255 255 255 / 0.35); border-radius: var(--radius);
+  }
+  .lang-switch:hover { color: #fff; border-color: #fff; }
+
+  @media (min-width: 960px) {
+    .nav-toggle { display: none; }
+    .site-nav { display: flex; position: static; align-items: center; gap: var(--space-5); padding: 0; background: none; overflow: visible; }
+    .site-nav ul { display: flex; gap: var(--space-1); }
+    .site-nav ul a {
+      position: relative; padding: var(--space-2) var(--space-3); border: 0; font-size: 1.125rem; color: #e3e8f3;
+    }
+    .site-nav ul a::after {
+      content: ''; position: absolute; left: var(--space-3); right: var(--space-3); bottom: -2px; height: 3px;
+      background: var(--color-naranja); transform: scaleX(0); transform-origin: left; transition: transform .2s;
+    }
+    .site-nav ul a:hover { color: #fff; }
+    .site-nav ul a:hover::after, .site-nav ul a[aria-current='page']::after { transform: scaleX(1); }
+    .site-nav ul a[aria-current='page'] { color: #fff; }
+    .site-nav__actions { margin: 0; gap: var(--space-3); }
+    .site-nav__cta { min-height: 44px; padding: 0.5rem 1.1rem; font-size: 1rem; }
+  }
+</style>

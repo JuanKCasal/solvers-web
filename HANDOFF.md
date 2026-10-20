@@ -2,45 +2,54 @@
 
 Estado vivo del proyecto. **Actualizar al final de cada sesión** (qué se hizo, qué sigue, qué falta saber).
 
-## Estado actual — 19-oct-2026 (sesión 1)
+## Estado actual — 19-oct-2026 (sesión 2)
 
-**Fase:** 0 · Arranque (documentación y repo local). Aún no hay código del sitio.
+**Fase:** 1 · Sitio v1 completo (ES/EN) listo para publicar. Falta activar GitHub Pages, DNS y formulario.
 
 ### Hecho
-- Extraída toda la información del brochure (`SOLVERS INDUSTRIALES COMPANY BROCHURE.ppt`, 19 láminas) → `docs/empresa.md`.
-- Brochure convertido a PDF de referencia → `fuentes/brochure/brochure-solvers-2026.pdf`.
-- 49 fotos extraídas sin recomprimir → `fuentes/brochure/fotos/` (índice en `INDEX.md`).
-- Logo vectorial original (Illustrator → PDF) en `brand/LOGO_SOLVERS.pdf` y derivados SVG:
-  color, blanco (para fondo azul) e isotipo.
-- Paleta de marca identificada: naranja `#FE3600`, azul marino `#001B50`, negro.
-- Decisiones de arquitectura registradas en `CLAUDE.md` (Astro, GitHub Pages + Actions, ES/EN, multipágina,
-  WhatsApp + email + formulario externo).
-- Repositorio git inicializado en `C:\dev\solvers-web` (rama `main`), primer commit local. **Sin remoto aún.**
+**Sesión 1**
+- Información del brochure → `docs/empresa.md`; brochure en PDF y 49 fotos → `fuentes/brochure/`.
+- Logo vectorial (`brand/`) y paleta de marca. Repo inicializado y subido a `github.com/JuanKCasal/solvers-web`.
+
+**Sesión 2**
+- Proyecto **Astro 7.4** con `@astrojs/sitemap`, Barlow/Barlow Condensed autoalojadas, CSS propio.
+- 22 páginas + 404: Inicio, Nosotros, Servicios (índice + 5 detalles), Proyectos (11 trabajos con galería), Maquinaria y equipos, Contacto — en español e inglés.
+- Collages del brochure recortados en fotos individuales → `src/assets/fotos/` (95 fotos; Astro genera WebP).
+- SEO: title/description por página, canonical, hreflang es/en/x-default, Open Graph (`public/og-image.jpg`), JSON-LD `Organization`, sitemap, robots.txt.
+- Botón flotante de WhatsApp, galería con visor accesible, menú móvil, formulario de contacto (modo mailto hasta configurar servicio).
+- Workflow `.github/workflows/deploy.yml` (checkout@v7, withastro/action@v6 con Node 24, deploy-pages@v5).
+- Base path configurable por variables (`SITE_URL`, `BASE_PATH`) para publicar en github.io antes del DNS.
+- Verificado: build limpio, 0 enlaces rotos, axe-core WCAG A/AA sin violaciones, sin scroll horizontal en 390 px.
 
 ## Próximos pasos
 
-1. **Crear el repo en GitHub** `JuanKCasal/solvers-web` (vacío, sin README) y conectar el remoto:
-   ```bash
-   git remote add origin https://github.com/JuanKCasal/solvers-web.git
-   git push -u origin main
-   ```
-   (Juan lo hace desde su equipo; requiere sus credenciales de GitHub.)
-2. **Scaffold de Astro** en la raíz del repo: `astro.config.mjs` con `site`, i18n (es por defecto, en), `@astrojs/sitemap`;
-   estructura `src/` según `CLAUDE.md`; `public/CNAME`; `public/robots.txt`; favicon desde el isotipo.
-3. **Workflow** `.github/workflows/deploy.yml` (build con `withastro/action`, deploy con `actions/deploy-pages`).
-4. **Sistema de diseño base:** tokens CSS, tipografía, header (logo blanco sobre azul), footer, botón flotante de WhatsApp.
-5. **Contenido:** colecciones `servicios`, `proyectos`, `equipos` en ES/EN a partir de `docs/empresa.md`.
-6. **Páginas:** Inicio → Servicios (+ detalle) → Proyectos → Maquinaria → Nosotros → Contacto → 404.
-7. **Imágenes:** seleccionar, recortar los collages (s10, s11, s13-09, s14, s16) en fotos individuales, optimizar con `astro:assets`.
-8. **Formulario:** crear cuenta en Formspree o Web3Forms con el correo destino y cablearlo.
-9. **SEO/QA:** metadatos, hreflang, JSON-LD, Lighthouse, accesibilidad, prueba en móvil.
-10. **DNS + dominio** (ver abajo) y verificación del dominio en GitHub.
+1. **Push** del commit de la sesión 2 (`git push` desde `C:\dev\solvers-web`).
+2. **Repositorio público** (Settings → General → Danger Zone → Change visibility), requisito de Pages gratis.
+3. **Activar Pages:** Settings → Pages → Build and deployment → Source = **GitHub Actions**.
+4. Elegir una opción:
+   - **A · Publicar ya en github.io (vista previa):** Settings → Secrets and variables → Actions → *Variables* → crear
+     `SITE_URL = https://juankcasal.github.io` y `BASE_PATH = /solvers-web` → Actions → "Desplegar en GitHub Pages" → Run workflow.
+     Sitio en `https://juankcasal.github.io/solvers-web/`. **Borrar ambas variables** al pasar al dominio.
+   - **B · Ir directo al dominio:** configurar DNS (abajo) y luego Settings → Pages → Custom domain = `solversindustriales.com`.
+5. **Formulario:** crear cuenta en Web3Forms (gratis, solo pide el correo destino) o Formspree y poner `endpoint`/`accessKey`
+   en `src/config/site.ts` → `CONTACT_FORM`.
+6. Revisión de textos con Solvers (sobre todo la versión en inglés y los títulos de proyectos).
+7. Completar contenido pendiente (ver preguntas abiertas) y reemplazar fotos por originales en alta.
+8. Tras publicar: Google Search Console (verificar dominio por DNS TXT, enviar `sitemap-index.xml`) y Lighthouse.
+
+## Cómo trabajar en local (Windows)
+
+```powershell
+cd C:\dev\solvers-web
+node -v          # requiere >= 22.22 (recomendado 24 LTS)
+npm install
+npm run dev      # http://localhost:4321
+```
+`node_modules/` y `dist/` están en `.gitignore`.
 
 ## DNS — solversindustriales.com → GitHub Pages
 
-Hacerlo **después** de que el primer despliegue funcione en `juankcasal.github.io/solvers-web`.
-
-En el panel DNS del dominio (comprado vía Google Workspace; hoy esos dominios se administran normalmente
+En el panel DNS del dominio (comprado vía Google Workspace; hoy esos dominios suelen administrarse
 desde Squarespace Domains — confirmar dónde está):
 
 | Tipo | Host | Valor |
@@ -54,38 +63,42 @@ desde Squarespace Domains — confirmar dónde está):
 | AAAA | @ | 2606:50c0:8002::153 |
 | AAAA | @ | 2606:50c0:8003::153 |
 | CNAME | www | juankcasal.github.io |
-| TXT | `_github-pages-challenge-JuanKCasal` | (valor que da GitHub → Settings → Pages → Verified domains) |
+| TXT | `_github-pages-challenge-JuanKCasal` | (valor que da GitHub → Settings (perfil) → Pages → Verified domains) |
 
 - Eliminar cualquier A/CNAME previo del apex o `www` que apunte a otro lado (p. ej. parking).
-- **No tocar** MX, SPF (`v=spf1 include:_spf.google.com ~all`), DKIM ni DMARC de Google Workspace.
-- En GitHub → Settings → Pages: Source = GitHub Actions, Custom domain = `solversindustriales.com`, **Enforce HTTPS**.
+- **No tocar** MX, SPF, DKIM ni DMARC de Google Workspace.
+- En el repo → Settings → Pages: Custom domain = `solversindustriales.com` y **Enforce HTTPS** (cuando GitHub emita el certificado).
 - Verificar los valores contra la documentación vigente de GitHub Pages antes de aplicarlos.
 
 ## Preguntas abiertas (para Solvers / Juan)
 
 **Contenido**
-- [ ] **Misión** de la empresa (el brochure solo trae Visión).
-- [ ] Año de fundación exacto (el brochure dice "+06 años"; ¿2020?).
-- [ ] Dirección física / ciudad / estado y si se quiere mapa (Google Maps).
+- [ ] **Misión** de la empresa (el brochure solo trae Visión; la página Nosotros no muestra misión).
+- [ ] Año de fundación exacto (el sitio dice "+6 años", según el brochure).
+- [ ] Dirección física / ciudad / estado y si se quiere mapa (Google Maps). Hoy el sitio solo dice "cobertura nacional".
 - [ ] Horario de atención.
 - [ ] Redes sociales (Instagram, LinkedIn, Facebook…).
 - [ ] Certificaciones, registros y afiliaciones (RNC, ISO, normas de soldadura, etc.).
-- [ ] Autorización para mostrar **logos** de PDVSA, Pequiven, Hidroven, HidroCaribe, ENT (si no, solo nombres).
-- [ ] ¿Hay más clientes, proyectos recientes o cifras (nº de proyectos, personal, equipos) que se puedan publicar?
-- [ ] Compactador: ¿"Mobac" o **Bomag** BW211D-4?
-- [ ] "Pickman": ¿qué es exactamente? (en fotos: camiones con grúa articulada).
+- [ ] Autorización para mostrar **logos** de PDVSA, Pequiven, Hidroven, HidroCaribe, ENT (hoy solo nombres en texto).
+- [ ] Más clientes, proyectos recientes o cifras publicables.
+- [ ] Compactador: la placa dice **BW 211 D-40** (modelo típico de Bomag); el brochure dice "Mobac". Confirmar marca. Hoy se muestra solo el modelo.
+- [ ] "Pickman": en las fotos son camiones con grúa articulada (¿"Pitman"?). Hoy se muestra como "Camión con grúa articulada".
+- [ ] En las fotos de maquinaria aparecen equipos que no están en la lista del brochure (motoniveladora sobre lowboy, camión plataforma,
+      mezcladora, compactadores manuales). ¿Se ofrecen en alquiler? Hoy no se muestran.
 - [ ] Fotos en **alta resolución** de proyectos y maquinaria (muchas del brochure rondan 300 px).
-- [ ] ¿Foto/mensaje del presidente (Edgar J. Hernández R.) en "Nosotros"?
+- [ ] ¿Foto del presidente (Edgar J. Hernández R.) para "Nosotros"? Hoy hay un mensaje suyo basado en la carta del brochure.
+- [ ] Revisar textos derivados: títulos y descripciones cortas de proyectos, "sectores que atendemos", lema del hero.
 
 **Técnicas / operativas**
-- [ ] Correo de destino del formulario y servicio a usar (Formspree vs Web3Forms).
-- [ ] ¿Crear correo corporativo `@solversindustriales.com` en Workspace y publicarlo en lugar del Gmail?
-- [ ] ¿Analítica? (ninguna / Plausible / GA4).
-- [ ] Repo **público** (necesario para Pages gratis) — confirmar.
+- [ ] Servicio y correo de destino del formulario (Web3Forms vs Formspree).
+- [ ] ¿Correo corporativo `@solversindustriales.com` en Workspace para publicarlo en lugar del Gmail?
+- [ ] ¿Analítica? (ninguna / Plausible / GA4). Hoy no hay ninguna.
+- [ ] Confirmar que el repo es público.
 - [ ] ¿Dónde se administra el DNS exactamente y quién tiene acceso?
 
 ## Registro de sesiones
 
 | Fecha | Sesión | Resumen |
 |---|---|---|
-| 2026-10-19 | 1 | Extracción del brochure, logo vectorial, CLAUDE.md, HANDOFF.md, primer commit local. |
+| 2026-10-19 | 1 | Extracción del brochure, logo vectorial, CLAUDE.md, HANDOFF.md, primer commit; push a GitHub. |
+| 2026-10-19 | 2 | Sitio v1 en Astro 7 (ES/EN, 22 páginas), workflow de Pages, SEO, accesibilidad verificada. |

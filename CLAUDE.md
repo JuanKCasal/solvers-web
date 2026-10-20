@@ -11,7 +11,7 @@ e hidrológico (clientes: PDVSA, Pequiven, Hidroven, HidroCaribe, Empresa Nacion
 
 - Responsable técnico: Juan Casal (GitHub **@JuanKCasal**, casaljuanc@gmail.com).
 - Dominio: **solversindustriales.com** (administrado desde Google Workspace).
-- Repositorio: `github.com/JuanKCasal/solvers-web` (por crear). Copia local: `C:\dev\solvers-web` (Windows).
+- Repositorio: `github.com/JuanKCasal/solvers-web` (debe ser público para Pages gratis). Copia local: `C:\dev\solvers-web` (Windows).
 - Objetivo: presencia profesional y captación de contactos B2B (contratistas, gerentes de mantenimiento,
   procura de empresas del sector energético).
 
@@ -27,14 +27,15 @@ e hidrológico (clientes: PDVSA, Pequiven, Hidroven, HidroCaribe, Empresa Nacion
 | Tema | Decisión |
 |---|---|
 | Tipo de sitio | Estático, sin backend |
-| Stack | **Astro** (versión estable actual al hacer el scaffold) + CSS propio con variables; sin frameworks de UI salvo necesidad clara |
+| Stack | **Astro 7** + CSS propio con variables (sin frameworks de UI) + `@astrojs/sitemap`; tipografías Barlow / Barlow Condensed autoalojadas (`@fontsource`) |
 | Hosting | **GitHub Pages**, despliegue con **GitHub Actions** (`withastro/action` + `actions/deploy-pages`) en cada push a `main` |
 | Dominio | `solversindustriales.com` (apex) + `www` → redirige al apex; HTTPS forzado |
-| Idiomas | **Bilingüe**: español principal en `/`, inglés en `/en/` (i18n nativo de Astro, `prefixDefaultLocale: false`) |
+| Idiomas | **Bilingüe**: español principal en `/`, inglés en `/en/` con slugs traducidos. Rutas manuales en `src/i18n/routes.ts` (no se usa el i18n nativo de Astro porque los slugs difieren por idioma) |
 | Estructura | **Multipágina** (ver mapa abajo) |
-| Contacto | Botón de **WhatsApp** (+58 412-411 4055), **email** y **formulario** vía servicio externo (Formspree o Web3Forms, por definir) |
+| Contacto | Botón flotante de **WhatsApp** (+58 412-411 4055), **email** y **formulario**: servicio externo configurable en `src/config/site.ts` (`CONTACT_FORM`); sin configurar, el formulario abre el correo (mailto) |
+| Dirección visual | **Industrial sobrio**: fondos claros, header/footer azul marino, acentos naranja, fotos protagonistas |
 
-## Mapa del sitio (propuesto)
+## Mapa del sitio
 
 | ES | EN | Contenido |
 |---|---|---|
@@ -56,21 +57,29 @@ e hidrológico (clientes: PDVSA, Pequiven, Hidroven, HidroCaribe, Empresa Nacion
 ```
 solvers-web/
 ├── CLAUDE.md, HANDOFF.md, README.md
-├── docs/                 # Documentación del proyecto (empresa.md = contenido)
-├── brand/                # Logo vectorial original (PDF) y SVG derivados — fuente, no se publica directo
-├── fuentes/brochure/     # Brochure en PDF y fotos extraídas (material crudo, sin optimizar)
-├── public/               # (Astro) CNAME, favicon, robots.txt — se copia tal cual
-├── src/                  # (Astro, por crear)
-│   ├── assets/           #   imágenes optimizadas por Astro (<Image />)
-│   ├── components/
-│   ├── layouts/
-│   ├── i18n/             #   diccionarios es.json / en.json y helpers de rutas
-│   ├── content/          #   colecciones: servicios, proyectos, equipos (MD/JSON, ES+EN)
-│   └── pages/            #   rutas ES en raíz, EN bajo /en/
+├── astro.config.mjs        # site/base (SITE_URL, BASE_PATH por variable de entorno), sitemap
+├── docs/empresa.md         # contenido de la empresa (fuente de verdad)
+├── brand/                  # logo vectorial original (PDF) y SVG derivados
+├── fuentes/brochure/       # brochure PDF y fotos extraídas (material crudo; no se publica)
+├── public/                 # CNAME, robots.txt, favicon(s), og-image.jpg, logo-solvers.png
+├── src/
+│   ├── assets/brand/       #   logos usados por el sitio
+│   ├── assets/fotos/<cat>/ #   fotos optimizadas por Astro (los collages del brochure ya están recortados)
+│   ├── config/site.ts      #   datos de contacto, clientes, WhatsApp, CONTACT_FORM
+│   ├── data/               #   servicios.ts, proyectos.ts, equipos.ts, images.ts (contenido ES/EN)
+│   ├── i18n/               #   routes.ts (mapa de rutas ES/EN, href() con base) y ui.ts (textos de interfaz)
+│   ├── components/         #   Header, Footer, PageHero, ServiceCard, Gallery (lightbox), ContactForm, CtaBand, Icon, WhatsAppFloat
+│   ├── layouts/BaseLayout  #   <head> SEO (canonical, hreflang, OG, JSON-LD Organization)
+│   ├── views/              #   una vista por página, recibe `lang`
+│   └── pages/              #   rutas ES en raíz, EN bajo /en/ (archivos finos que llaman a views/)
 └── .github/workflows/deploy.yml
 ```
 
-Las imágenes que se usen en el sitio se copian de `fuentes/` a `src/assets/` (nunca se enlaza `fuentes/` desde el sitio).
+Reglas:
+- **Todo enlace interno** se construye con `href()` / `route()` de `src/i18n/routes.ts` (respetan el base path).
+- Agregar una página = crear la vista en `src/views/`, las dos rutas en `src/pages/` y la clave en `ROUTES`.
+- Agregar fotos = copiarlas a `src/assets/fotos/<categoria>/` y referenciarlas en `src/data/` (ruta relativa a `fotos/`).
+- `fuentes/` nunca se enlaza desde el sitio.
 
 ## Identidad visual
 
@@ -80,8 +89,9 @@ Las imágenes que se usen en el sitio se copian de `fuentes/` a `src/assets/` (n
   - `--color-naranja: #FE3600` (marca; contraste 3.7:1 sobre blanco → solo texto grande/íconos/botones)
   - `--color-naranja-texto: #C42A00` (variante para enlaces/texto pequeño sobre blanco, 5.7:1)
   - `--color-azul: #001B50` (fondos, header/footer; 16.5:1 con blanco)
-  - `--color-negro: #000`, `--color-blanco: #fff`, grises neutros a definir.
-- Tipografía: por definir (sans-serif industrial y legible, autoalojada; evitar dependencias de CDN de fuentes si no es necesario).
+  - `--color-naranja-boton: #D42E00` (fondo de botones con texto blanco, 5.0:1)
+  - `--color-negro: #000`, `--color-blanco: #fff`; neutros en `src/styles/global.css`. WhatsApp: `#0E7A40`.
+- Tipografía: **Barlow** (texto) y **Barlow Condensed** (títulos, botones, etiquetas en mayúsculas), autoalojadas.
 - Estilo: industrial, sobrio, fotográfico; transmitir seguridad y capacidad técnica.
 
 ## Convenciones
@@ -100,7 +110,7 @@ Las imágenes que se usen en el sitio se copian de `fuentes/` a `src/assets/` (n
 - **Logos de clientes:** no publicarlos sin autorización escrita; mientras tanto, solo nombres en texto.
 - **Privacidad:** sin trackers por defecto; si se añade analítica, preferir una sin cookies.
 
-## Comandos (una vez creado el proyecto Astro)
+## Comandos (Node ≥ 22.22; recomendado Node 24 LTS)
 
 ```bash
 npm install
@@ -111,10 +121,16 @@ npm run preview
 
 ## Despliegue y DNS (resumen; detalle en HANDOFF.md)
 
-- GitHub Pages con origen "GitHub Actions"; `public/CNAME` = `solversindustriales.com`; `site: 'https://solversindustriales.com'` en `astro.config`.
+- GitHub Pages con origen "GitHub Actions" (`.github/workflows/deploy.yml`: checkout@v7, withastro/action@v6, deploy-pages@v5). `public/CNAME` = `solversindustriales.com`.
+- `astro.config.mjs` usa por defecto `site = https://solversindustriales.com` y `base = /`. Para publicar en `juankcasal.github.io/solvers-web/` antes del DNS, definir las variables de repositorio `SITE_URL=https://juankcasal.github.io` y `BASE_PATH=/solvers-web` (y borrarlas al activar el dominio).
 - DNS del apex: registros A/AAAA de GitHub Pages; `www` CNAME → `juankcasal.github.io`.
 - **No tocar** los registros MX/SPF/DKIM/DMARC de Google Workspace.
 - GitHub Pages en cuentas personales gratuitas exige **repositorio público** (privado requiere GitHub Pro).
+
+## Calidad (verificado en cada entrega)
+
+- `npm run build` sin errores ni advertencias; enlaces internos y `srcset` sin rotos.
+- axe-core (WCAG 2 A/AA) sin violaciones en las páginas principales; sin scroll horizontal a 390 px.
 
 ## Notas del entorno
 

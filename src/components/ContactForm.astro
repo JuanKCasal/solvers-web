@@ -1,0 +1,145 @@
+---
+// Formulario de contacto. GitHub Pages no procesa formularios:
+// - Si CONTACT_FORM.endpoint está configurado (Web3Forms/Formspree) se envía allí por fetch.
+// - Si no, se arma un correo (mailto:) con los datos para que el visitante lo envíe.
+import Icon from './Icon.astro';
+import { CONTACT_FORM, SITE } from '../config/site';
+import { SERVICES } from '../data/servicios';
+import type { Lang } from '../i18n/routes';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const es = lang === 'es';
+const L = {
+  name: es ? 'Nombre y apellido' : 'Full name',
+  company: es ? 'Empresa' : 'Company',
+  email: es ? 'Correo electrónico' : 'Email',
+  phone: es ? 'Teléfono' : 'Phone',
+  service: es ? 'Servicio de interés' : 'Service of interest',
+  choose: es ? 'Seleccione una opción' : 'Select an option',
+  other: es ? 'Otro' : 'Other',
+  message: es ? 'Describa su requerimiento' : 'Describe your requirement',
+  required: es ? 'obligatorio' : 'required',
+  send: es ? 'Enviar mensaje' : 'Send message',
+  sending: es ? 'Enviando…' : 'Sending…',
+  ok: es ? '¡Gracias! Recibimos su mensaje y le responderemos pronto.' : 'Thank you! We received your message and will reply soon.',
+  error: es ? 'No pudimos enviar el mensaje. Escríbanos a ' : 'We could not send your message. Please write to ',
+  mailNote: es
+    ? 'Al enviar se abrirá su programa de correo con el mensaje listo para enviar a '
+    : 'Submitting will open your email app with the message ready to send to ',
+  subject: es ? 'Solicitud desde la web' : 'Website enquiry',
+};
+const configured = Boolean(CONTACT_FORM.endpoint);
+---
+<form class="contact-form" method="post" action={configured ? CONTACT_FORM.endpoint : `mailto:${SITE.email}`}
+  data-endpoint={CONTACT_FORM.endpoint} data-email={SITE.email} data-subject={L.subject}
+  data-sending={L.sending} data-ok={L.ok} data-error={L.error} novalidate>
+  {CONTACT_FORM.accessKey && <input type="hidden" name="access_key" value={CONTACT_FORM.accessKey} />}
+  <input type="hidden" name="subject" value={`${L.subject} — ${SITE.name}`} />
+  <input type="hidden" name="idioma" value={lang} />
+  <div class="hp" aria-hidden="true"><label>No llenar <input type="text" name="botcheck" tabindex="-1" autocomplete="off" /></label></div>
+
+  <div class="contact-form__grid">
+    <div class="field">
+      <label for="cf-nombre">{L.name} <span class="req">({L.required})</span></label>
+      <input id="cf-nombre" name="nombre" type="text" autocomplete="name" required />
+    </div>
+    <div class="field">
+      <label for="cf-empresa">{L.company}</label>
+      <input id="cf-empresa" name="empresa" type="text" autocomplete="organization" />
+    </div>
+    <div class="field">
+      <label for="cf-email">{L.email} <span class="req">({L.required})</span></label>
+      <input id="cf-email" name="email" type="email" autocomplete="email" required />
+    </div>
+    <div class="field">
+      <label for="cf-telefono">{L.phone}</label>
+      <input id="cf-telefono" name="telefono" type="tel" autocomplete="tel" />
+    </div>
+    <div class="field field--full">
+      <label for="cf-servicio">{L.service}</label>
+      <select id="cf-servicio" name="servicio">
+        <option value="">{L.choose}</option>
+        {SERVICES.map((s) => <option value={s.title[lang]}>{s.title[lang]}</option>)}
+        <option value={L.other}>{L.other}</option>
+      </select>
+    </div>
+    <div class="field field--full">
+      <label for="cf-mensaje">{L.message} <span class="req">({L.required})</span></label>
+      <textarea id="cf-mensaje" name="mensaje" rows="6" required></textarea>
+    </div>
+  </div>
+
+  {!configured && <p class="contact-form__note">{L.mailNote}<a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>}
+  <button class="btn btn--primary" type="submit"><Icon name="send" /> <span>{L.send}</span></button>
+  <p class="contact-form__status" role="status" aria-live="polite"></p>
+</form>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('form.contact-form').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('.contact-form__status')!;
+    const btn = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    const btnLabel = btn.querySelector('span')!;
+    const original = btnLabel.textContent;
+    const d = form.dataset;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      const data = new FormData(form);
+      if (data.get('botcheck')) return; // bot
+
+      if (!d.endpoint) {
+        const lines = ['nombre', 'empresa', 'email', 'telefono', 'servicio', 'mensaje']
+          .map((k) => [k, String(data.get(k) ?? '').trim()])
+          .filter(([, v]) => v)
+          .map(([k, v]) => (k === 'mensaje' ? `\n${v}` : `${k[0].toUpperCase() + k.slice(1)}: ${v}`));
+        const url = `mailto:${d.email}?subject=${encodeURIComponent(d.subject!)}&body=${encodeURIComponent(lines.join('\n'))}`;
+        window.location.href = url;
+        return;
+      }
+
+      btn.disabled = true;
+      btnLabel.textContent = d.sending!;
+      status.className = 'contact-form__status';
+      try {
+        const res = await fetch(d.endpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        status.textContent = d.ok!;
+        status.classList.add('is-ok');
+      } catch {
+        status.innerHTML = `${d.error}<a href="mailto:${d.email}">${d.email}</a>.`;
+        status.classList.add('is-error');
+      } finally {
+        btn.disabled = false;
+        btnLabel.textContent = original;
+      }
+    });
+  });
+</script>
+
+<style>
+  .contact-form { display: grid; gap: var(--space-5); }
+  .contact-form__grid { display: grid; gap: var(--space-4); }
+  @media (min-width: 640px) { .contact-form__grid { grid-template-columns: 1fr 1fr; } .field--full { grid-column: 1 / -1; } }
+  .field { display: grid; gap: var(--space-2); }
+  .field label { font-weight: 600; color: var(--color-tinta); }
+  .req { font-weight: 400; color: var(--color-texto-suave); font-size: var(--fs-300); }
+  .field input, .field select, .field textarea {
+    width: 100%; min-height: 48px; padding: 0.65rem 0.8rem; font: inherit; color: var(--color-tinta);
+    background: #fff; border: 1.5px solid #9aa3b5; border-radius: var(--radius);
+  }
+  .field textarea { resize: vertical; }
+  .field input:focus, .field select:focus, .field textarea:focus { outline: 3px solid var(--color-naranja); outline-offset: 0; border-color: var(--color-azul); }
+  .hp { position: absolute; left: -9999px; }
+  .contact-form .btn { justify-self: start; }
+  .contact-form__note { margin: 0; font-size: var(--fs-300); color: var(--color-texto-suave); }
+  .contact-form__status:empty { display: none; }
+  .contact-form__status { margin: 0; padding: var(--space-3) var(--space-4); border-radius: var(--radius); font-weight: 600; }
+  .contact-form__status.is-ok { background: #e7f6ec; color: #0d5c2e; }
+  .contact-form__status.is-error { background: #fdecea; color: #8a1c0b; }
+</style>

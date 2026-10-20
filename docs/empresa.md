@@ -121,13 +121,16 @@ Equipo especializado que ejecuta una amplia gama de procesos de aplicación de r
 - Excavadora Volvo EC210BLC (Jumbo).
 - Retroexcavadora Volvo BL60B 4×4.
 - Retroexcavadora Volvo BL60 4×4.
-- Compactador vibratorio "Mobac BW211D-4" (❓ probablemente **Bomag** BW211D-4 — confirmar).
+- Compactador vibratorio "Mobac BW211D-4" (❓ la placa en la foto dice **BW 211 D-40**, modelo típico de Bomag — confirmar marca).
 
 ### 4.7 Equipos y vehículos (lámina 19)
 - Compresor portátil.
 - Máquinas de soldar Lincoln Electric.
-- "Pickman" (❓ en las fotos se ven camiones con grúa articulada — confirmar término/descripción).
+- "Pickman" (❓ en las fotos se ven camiones con grúa articulada; posiblemente "Pitman" — confirmar).
 - Torre de iluminación portátil.
+
+> En las fotos de las láminas 17–18 aparecen además: motoniveladora sobre lowboy, camión plataforma, mezcladora y compactadores manuales,
+> que **no** figuran en el texto del brochure. No se publican hasta confirmar.
 
 ## 5. Identidad visual
 

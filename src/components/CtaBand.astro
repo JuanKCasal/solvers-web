@@ -1,0 +1,26 @@
+---
+import Icon from './Icon.astro';
+import { route, type Lang } from '../i18n/routes';
+import { useT } from '../i18n/ui';
+import { whatsappUrl } from '../config/site';
+
+interface Props { lang: Lang; title?: string; text?: string; }
+const { lang } = Astro.props;
+const t = useT(lang);
+const title = Astro.props.title ?? (lang === 'es' ? '¿Tiene un proyecto o una parada de planta en puerta?' : 'Planning a project or a plant shutdown?');
+const text = Astro.props.text ?? (lang === 'es'
+  ? 'Cuéntenos qué necesita y le enviaremos una propuesta técnica y económica.'
+  : 'Tell us what you need and we will send you a technical and commercial proposal.');
+---
+<section class="cta-band">
+  <div class="container">
+    <div>
+      <h2>{title}</h2>
+      <p>{text}</p>
+    </div>
+    <div class="btn-row">
+      <a class="btn btn--primary" href={route('contact', lang)}>{t('cta.quote')} <Icon name="arrow" /></a>
+      <a class="btn btn--ghost" href={whatsappUrl(t('cta.whatsappText'))} target="_blank" rel="noopener"><Icon name="chat" /> WhatsApp</a>
+    </div>
+  </div>
+</section>
