@@ -116,25 +116,26 @@ Equipo especializado que ejecuta una amplia gama de procesos de aplicación de r
 - Pintura.
 - Instalación de cercas perimetrales.
 
-### 4.6 Alquiler de maquinaria pesada (láminas 17–18)
+### 4.6 Alquiler de maquinaria (láminas 17–18 + comentarios de Solvers, 22-oct-2026)
 - Cargador frontal Volvo L190E.
 - Excavadora Volvo EC210BLC (Jumbo).
 - Retroexcavadora Volvo BL60B 4×4.
 - Retroexcavadora Volvo BL60 4×4.
 - Compactador vibratorio "Mobac BW211D-4" (❓ la placa en la foto dice **BW 211 D-40**, modelo típico de Bomag — confirmar marca).
-
-### 4.7 Equipos y vehículos (lámina 19)
-- Compresor portátil.
-- Máquinas de soldar Lincoln Electric.
-- Camión **Pickman** (camión con grúa articulada; nombre confirmado por Solvers el 22-oct-2026).
-- Torre de iluminación portátil.
+- **Camión Pickman** (camión con grúa articulada). Solvers lo ofrece en alquiler y usa ese nombre (22-oct-2026); antes figuraba entre los equipos de apoyo.
 
 > En las fotos de las láminas 17–18 aparecen además: motoniveladora sobre lowboy, camión plataforma, mezcladora y compactadores manuales,
 > que **no** figuran en el texto del brochure. No se publican hasta confirmar.
 
-### 4.8 Comentarios de Solvers (22-oct-2026) — pendientes de aplicar en el sitio
-- **Alquiler de equipos/herramientas:** Soldadura de Electrodos Revestidos, Moto Soldadoras, Sandblasting, Pintura.
-- **Alquiler de maquinaria:** Camión Pickman.
+### 4.7 Alquiler de equipos y herramientas (comentarios de Solvers, 22-oct-2026)
+- Soldadura de electrodos revestidos (SMAW). Sin foto propia.
+- Moto soldadoras (Lincoln Electric, a motor; foto de la lámina 19).
+- Sandblasting (se ilustra con la foto del compresor portátil). Sin foto propia del equipo de chorro.
+- Pintura. Sin foto propia.
+
+### 4.8 Equipos de apoyo propios (lámina 19)
+- Compresor portátil.
+- Torre de iluminación portátil.
 
 ## 5. Identidad visual
 

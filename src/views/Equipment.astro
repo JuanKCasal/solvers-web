@@ -17,36 +17,41 @@ const es = lang === 'es';
 const c = es
   ? {
       title: 'Maquinaria y equipos',
-      description: 'Alquiler de maquinaria pesada en Venezuela: cargador frontal Volvo L190E, excavadora Volvo EC210BLC, retroexcavadoras Volvo BL60 y BL60B, compactador vibratorio, compresor, soldadoras Lincoln y camión grúa.',
-      lead: 'Alquiler de maquinaria pesada y equipos de apoyo para obras, mantenimiento y movimientos de tierra.',
-      heavy: 'Maquinaria pesada',
-      heavyLead: 'Equipos disponibles para alquiler.',
-      support: 'Equipos y vehículos de apoyo',
+      description: 'Alquiler de maquinaria y equipos en Venezuela: cargador frontal Volvo L190E, excavadora Volvo EC210BLC, retroexcavadoras Volvo BL60 y BL60B, compactador vibratorio, camión Pickman, soldadura de electrodos revestidos, moto soldadoras, sandblasting y pintura.',
+      lead: 'Alquiler de maquinaria pesada, equipos y herramientas para obras, mantenimiento y movimientos de tierra.',
+      heavy: 'Alquiler de maquinaria',
+      heavyLead: 'Maquinaria pesada y camión Pickman disponibles para alquiler.',
+      tools: 'Alquiler de equipos y herramientas',
+      toolsLead: 'Equipos para soldadura, limpieza con chorro abrasivo y pintura.',
+      support: 'Equipos de apoyo',
       supportLead: 'Recursos propios que respaldan nuestros trabajos de campo.',
       ask: 'Consultar disponibilidad',
-      waText: 'Hola, quisiera consultar la disponibilidad de maquinaria pesada para alquiler.',
+      waText: 'Hola, quisiera consultar la disponibilidad de maquinaria o equipos para alquiler.',
     }
   : {
       title: 'Equipment rental',
-      description: 'Heavy equipment rental in Venezuela: Volvo L190E wheel loader, Volvo EC210BLC excavator, Volvo BL60 and BL60B backhoe loaders, vibratory compactor, compressor, Lincoln welders and crane truck.',
-      lead: 'Heavy equipment and support equipment rental for construction, maintenance and earthmoving.',
-      heavy: 'Heavy equipment',
-      heavyLead: 'Equipment available for rent.',
-      support: 'Support equipment and vehicles',
+      description: 'Machinery and equipment rental in Venezuela: Volvo L190E wheel loader, Volvo EC210BLC excavator, Volvo BL60 and BL60B backhoe loaders, vibratory compactor, Pickman truck, shielded metal arc welding, engine-driven welders, sandblasting and painting.',
+      lead: 'Heavy machinery, equipment and tool rental for construction, maintenance and earthmoving.',
+      heavy: 'Machinery rental',
+      heavyLead: 'Heavy equipment and Pickman truck available for rent.',
+      tools: 'Equipment and tool rental',
+      toolsLead: 'Equipment for welding, abrasive blast cleaning and painting.',
+      support: 'Support equipment',
       supportLead: 'In-house resources that back our field work.',
       ask: 'Check availability',
-      waText: 'Hello, I would like to check heavy equipment rental availability.',
+      waText: 'Hello, I would like to check machinery or equipment rental availability.',
     };
-const groups: { key: Equipment['group']; title: string; lead: string }[] = [
-  { key: 'heavy', title: c.heavy, lead: c.heavyLead },
-  { key: 'support', title: c.support, lead: c.supportLead },
+const groups: { key: Equipment['group']; title: string; lead: string; cta: boolean }[] = [
+  { key: 'heavy', title: c.heavy, lead: c.heavyLead, cta: false },
+  { key: 'tools', title: c.tools, lead: c.toolsLead, cta: true },
+  { key: 'support', title: c.support, lead: c.supportLead, cta: false },
 ];
 ---
 <BaseLayout lang={lang} title={c.title} description={c.description} alternates={ROUTES.equipment}>
   <PageHero lang={lang} title={c.title} lead={c.lead} crumbs={[{ label: c.title }]} />
 
   {groups.map((g, gi) => (
-    <section class:list={['section', { 'section--alt': gi === 0 }]}>
+    <section class:list={['section', { 'section--alt': gi % 2 === 0 }]}>
       <div class="container">
         <div class="section-head">
           <h2>{g.title}</h2>
@@ -55,20 +60,27 @@ const groups: { key: Equipment['group']; title: string; lead: string }[] = [
         <div class="grid grid--3">
           {EQUIPMENT.filter((e) => e.group === g.key).map((e) => (
             <article class="eq-card">
-              <div class:list={['eq-card__media', { 'is-double': e.photos.length > 1 }]}>
-                {e.photos.slice(0, 2).map((p, i) => (
-                  <Image src={img(p)} alt={`${e.name[lang]}${e.model ? ` ${e.model}` : ''}${i ? ` (${i + 1})` : ''}`}
-                    widths={[320, 520]} sizes="(min-width: 1100px) 370px, (min-width: 700px) 45vw, 100vw" loading="lazy" />
-                ))}
-              </div>
+              {e.photos.length > 0 ? (
+                <div class:list={['eq-card__media', { 'is-double': e.photos.length > 1 }]}>
+                  {e.photos.slice(0, 2).map((p, i) => (
+                    <Image src={img(p)} alt={`${e.alt ? e.alt[lang] : `${e.name[lang]}${e.model ? ` ${e.model}` : ''}`}${i ? ` (${i + 1})` : ''}`}
+                      widths={[320, 520]} sizes="(min-width: 1100px) 370px, (min-width: 700px) 45vw, 100vw" loading="lazy" />
+                  ))}
+                </div>
+              ) : (
+                <div class="eq-card__media eq-card__media--icon">
+                  <Icon name={e.icon ?? 'wrench'} size={64} />
+                </div>
+              )}
               <div class="eq-card__body">
                 <h3>{e.name[lang]}</h3>
                 {e.model && <p class="eq-card__model">{e.model}</p>}
+                {e.detail && <p class="eq-card__detail">{e.detail[lang]}</p>}
               </div>
             </article>
           ))}
         </div>
-        {g.key === 'heavy' && (
+        {g.cta && (
           <div class="btn-row eq-cta">
             <a class="btn btn--primary" href={route('contact', lang)}>{c.ask} <Icon name="arrow" /></a>
             <a class="btn btn--outline" href={whatsappUrl(c.waText)} target="_blank" rel="noopener"><Icon name="chat" /> WhatsApp</a>
@@ -90,5 +102,7 @@ const groups: { key: Equipment['group']; title: string; lead: string }[] = [
   .eq-card__body { padding: var(--space-4) var(--space-5) var(--space-5); border-top: 4px solid var(--color-naranja); }
   .eq-card h3 { font-size: 1.45rem; margin: 0; }
   .eq-card__model { margin: var(--space-1) 0 0; font-weight: 600; color: var(--color-texto-suave); }
+  .eq-card__media--icon { display: grid; place-items: center; aspect-ratio: 16 / 10; background: var(--color-azul); color: var(--color-naranja); }
+  .eq-card__detail { margin: var(--space-1) 0 0; color: var(--color-texto-suave); }
   .eq-cta { margin-top: var(--space-6); }
 </style>

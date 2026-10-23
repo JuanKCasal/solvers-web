@@ -154,10 +154,10 @@ export const SERVICES: Service[] = [
     id: 'maquinaria',
     slug: L('alquiler-de-maquinaria', 'equipment-rental'),
     icon: 'truck',
-    title: L('Alquiler de maquinaria pesada', 'Heavy equipment rental'),
+    title: L('Alquiler de maquinaria y equipos', 'Machinery and equipment rental'),
     summary: L(
-      'Cargador frontal, excavadora, retroexcavadoras, compactador vibratorio y equipos de apoyo.',
-      'Wheel loader, excavator, backhoe loaders, vibratory compactor and support equipment.',
+      'Maquinaria pesada, camión Pickman y equipos de soldadura, sandblasting y pintura.',
+      'Heavy equipment, Pickman truck, and welding, sandblasting and painting equipment.',
     ),
     intro: L('', ''),
     items: [],

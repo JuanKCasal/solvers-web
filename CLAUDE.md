@@ -47,7 +47,7 @@ e hidrológico (clientes: PDVSA, Pequiven, Hidroven, HidroCaribe, Empresa Nacion
 | `/servicios/refractarios-y-aislamiento-termico/` | `/en/services/refractories-and-thermal-insulation/` | §4.4 |
 | `/servicios/obras-civiles/` | `/en/services/civil-works/` | §4.5 |
 | `/servicios/procura/` | `/en/services/procurement/` | §4.2 |
-| `/maquinaria-y-equipos/` | `/en/equipment-rental/` | §4.6 y §4.7 |
+| `/maquinaria-y-equipos/` | `/en/equipment-rental/` | §4.6–4.8 |
 | `/proyectos/` | `/en/projects/` | Galería de trabajos ejecutados (casos 1–9 + civiles) |
 | `/contacto/` | `/en/contact/` | Formulario, WhatsApp, teléfonos, email |
 | `/404` | — | Página de error bilingüe |
