@@ -10,8 +10,8 @@ servicios de ingeniería mecánica, metalmecánica, eléctrica y civil para los 
 e hidrológico (clientes: PDVSA, Pequiven, Hidroven, HidroCaribe, Empresa Nacional de Transporte).
 
 - Responsable técnico: Juan Casal (GitHub **@JuanKCasal**, casaljuanc@gmail.com).
-- Dominio: **solversindustriales.com** (administrado desde Google Workspace).
-- Repositorio: `github.com/JuanKCasal/solvers-web` (debe ser público para Pages gratis). Copia local: `C:\dev\solvers-web` (Windows).
+- Dominio: **solversindustriales.com** (comprado vía Google Workspace; DNS en **Squarespace Domains**). Sitio en producción con HTTPS.
+- Repositorio: `github.com/JuanKCasal/solvers-web` (público). Copia local: `C:\dev\solvers-web` (Windows).
 - Objetivo: presencia profesional y captación de contactos B2B (contratistas, gerentes de mantenimiento,
   procura de empresas del sector energético).
 
@@ -137,3 +137,8 @@ npm run preview
 - Las sesiones con Claude trabajan sobre `C:\dev\solvers-web` a través del puente de escritorio (shell Linux con la carpeta montada);
   git se ejecuta desde ahí con identidad local `Juan Casal <casaljuanc@gmail.com>`.
 - Si Git para Windows reclama "dubious ownership": `git config --global --add safe.directory C:/dev/solvers-web`.
+- Claude no puede hacer `git push` (no tiene credenciales): hace commit local y Juan ejecuta `git push` en PowerShell.
+- Si un commit hecho por Claude deja archivos `.lock` en `.git`, pedir permiso de borrado de la carpeta y limpiarlos.
+- **Navegadores:** hay dos Chrome con Claude in Chrome — Browser 1 = GitHub (casaljuanc@gmail.com) y Browser 2 =
+  presidencia@solversindustriales.com (Workspace, Squarespace DNS, Search Console). Ver tabla en `HANDOFF.md`.
+- Producción: **https://solversindustriales.com** (HTTPS forzado; DNS en Squarespace Domains).

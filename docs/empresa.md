@@ -126,11 +126,15 @@ Equipo especializado que ejecuta una amplia gama de procesos de aplicación de r
 ### 4.7 Equipos y vehículos (lámina 19)
 - Compresor portátil.
 - Máquinas de soldar Lincoln Electric.
-- "Pickman" (❓ en las fotos se ven camiones con grúa articulada; posiblemente "Pitman" — confirmar).
+- Camión **Pickman** (camión con grúa articulada; nombre confirmado por Solvers el 22-oct-2026).
 - Torre de iluminación portátil.
 
 > En las fotos de las láminas 17–18 aparecen además: motoniveladora sobre lowboy, camión plataforma, mezcladora y compactadores manuales,
 > que **no** figuran en el texto del brochure. No se publican hasta confirmar.
+
+### 4.8 Comentarios de Solvers (22-oct-2026) — pendientes de aplicar en el sitio
+- **Alquiler de equipos/herramientas:** Soldadura de Electrodos Revestidos, Moto Soldadoras, Sandblasting, Pintura.
+- **Alquiler de maquinaria:** Camión Pickman.
 
 ## 5. Identidad visual
 
