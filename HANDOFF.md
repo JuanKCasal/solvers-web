@@ -4,7 +4,7 @@ Estado vivo del proyecto. **Actualizar al final de cada sesión** (qué se hizo,
 
 ## Estado actual — 19-oct-2026 (sesión 2)
 
-**Fase:** 1 · Sitio v1 publicado en vista previa: https://juankcasal.github.io/solvers-web/ — falta DNS del dominio y formulario.
+**Fase:** 1 · Sitio v1 publicado en **http://solversindustriales.com** (22-oct-2026). Pendiente: certificado HTTPS + Enforce HTTPS, TXT de verificación y formulario.
 
 ### Hecho
 **Sesión 1**
@@ -23,18 +23,20 @@ Estado vivo del proyecto. **Actualizar al final de cada sesión** (qué se hizo,
 
 ## Próximos pasos
 
-Hecho el 19-oct-2026: push del sitio v1; repo confirmado **público**; Pages → Source = **GitHub Actions**;
-variables de repositorio `SITE_URL=https://juankcasal.github.io` y `BASE_PATH=/solvers-web`; workflow ejecutado con éxito (run #2).
+Hecho el 22-oct-2026:
+- Squarespace DNS: eliminado el bloque "Opciones predeterminadas de Squarespace"; creados 4 A + 4 AAAA (@) y CNAME `www → juankcasal.github.io`.
+  Correo intacto (MX `smtp.google.com`, SPF, DKIM). Nota: no hay registro DMARC (recomendable agregarlo).
+- GitHub: dominio `solversindustriales.com` guardado en Pages; variables `SITE_URL`/`BASE_PATH` borradas; workflow #3 OK.
 
-1. **Pasar al dominio:** configurar DNS (abajo) → repo Settings → Pages → Custom domain = `solversindustriales.com`
-   → **borrar** las variables `SITE_URL` y `BASE_PATH` (Settings → Secrets and variables → Actions → Variables)
-   → volver a ejecutar el workflow → activar **Enforce HTTPS** cuando GitHub emita el certificado.
-2. **Formulario:** crear cuenta en Web3Forms (gratis, solo pide el correo destino) o Formspree y poner `endpoint`/`accessKey`
-   en `src/config/site.ts` → `CONTACT_FORM`.
-3. Revisión de textos con Solvers (sobre todo la versión en inglés y los títulos de proyectos).
-4. Completar contenido pendiente (ver preguntas abiertas) y reemplazar fotos por originales en alta.
-5. Tras publicar en el dominio: Google Search Console (verificar dominio por DNS TXT, enviar `sitemap-index.xml`) y Lighthouse.
-6. Aviso de GitHub: `ubuntu-latest` migra a Ubuntu 26 desde el 19-oct-2026; si el build fallara por eso, fijar `runs-on: ubuntu-24.04`.
+1. **HTTPS:** cuando GitHub termine el "DNS check" y emita el certificado, marcar **Enforce HTTPS** en Settings → Pages.
+2. **Verificar dominio (TXT)** en Squarespace → DNS → Registros personalizados:
+   `TXT  _github-pages-challenge-JuanKCasal  7b4e70bc28f7bcf0c6a490eeedca23`
+   y luego **Verify** en https://github.com/settings/pages_verified_domains/solversindustriales.com
+3. **Formulario:** crear cuenta en Web3Forms o Formspree y poner `endpoint`/`accessKey` en `src/config/site.ts` → `CONTACT_FORM`.
+4. Revisión de textos con Solvers (versión en inglés, títulos de proyectos).
+5. Completar contenido pendiente (ver preguntas abiertas) y reemplazar fotos por originales en alta.
+6. Google Search Console (verificar dominio por DNS TXT, enviar `sitemap-index.xml`) y Lighthouse.
+7. Aviso de GitHub: `ubuntu-latest` migra a Ubuntu 26 desde el 19-oct-2026; si el build fallara por eso, fijar `runs-on: ubuntu-24.04`.
 
 ## Cómo trabajar en local (Windows)
 
@@ -102,3 +104,4 @@ desde Squarespace Domains — confirmar dónde está):
 | 2026-10-19 | 1 | Extracción del brochure, logo vectorial, CLAUDE.md, HANDOFF.md, primer commit; push a GitHub. |
 | 2026-10-19 | 2 | Sitio v1 en Astro 7 (ES/EN, 22 páginas), workflow de Pages, SEO, accesibilidad verificada. |
 | 2026-10-19 | 3 | GitHub Pages activado (Actions) y sitio publicado en juankcasal.github.io/solvers-web. |
+| 2026-10-22 | 4 | DNS en Squarespace → GitHub Pages; dominio propio activo (http); variables de vista previa eliminadas. |
