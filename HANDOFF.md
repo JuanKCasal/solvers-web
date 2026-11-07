@@ -44,6 +44,10 @@ Estado vivo del proyecto. **Actualizar al final de cada sesión** (qué se hizo,
   ícono `flask`, foto `src/assets/fotos/limpieza-quimica/caldera-haces-tubos.jpg`; contadores "7 líneas de servicio".
   Correo de la web → **contacto@solversindustriales.com**. Corregido `label-content-name-mismatch` del selector de idioma.
   Verificado: build sin advertencias (24 páginas), 208 enlaces/recursos sin rotos, axe WCAG A/AA 0 violaciones en 9 páginas, sin scroll horizontal a 390 px.
+- **Fotos de la web mejoradas:** las 92 fotos de `src/assets/fotos/` (todas menos `limpieza-quimica/`) escaladas ×4 con Real-ESRGAN
+  (script `brochure/fuente/sr.py`, ncnn en CPU) y reducidas a ≤1000 px (JPEG q84; carpeta ~11 MB). Mismos nombres: sin cambios de código.
+  La IA inventa algo de textura (sobre todo en caras pequeñas); los originales siguen en `fuentes/brochure/fotos/` y en el historial de git.
+  Verificado: build sin advertencias, 337 enlaces/recursos sin rotos, axe 0 violaciones, 390 px OK.
 
 **Sesión 5 (22-oct-2026)**
 - **DMARC** creado en Squarespace: `TXT _dmarc  v=DMARC1; p=none; rua=mailto:presidencia@solversindustriales.com; fo=1` (resuelve en DNS público).
@@ -95,7 +99,7 @@ Hay **dos Chrome** con la extensión de Claude conectados. Usar `list_connected_
 0. **Correo contacto@:** confirmar que el buzón `contacto@solversindustriales.com` existe en Workspace y recibe correo (la web ya lo usa). `presidencia@` va solo en el brochure.
 1. **Formulario:** crear cuenta en Web3Forms o Formspree y poner `endpoint`/`accessKey` en `src/config/site.ts` → `CONTACT_FORM`.
 2. Revisión de textos con Solvers (versión en inglés, títulos de proyectos).
-3. Completar contenido pendiente (ver preguntas abiertas) y reemplazar fotos por originales en alta.
+3. Completar contenido pendiente (ver preguntas abiertas). Las fotos ya están mejoradas con IA (sesión 6), pero siguen haciendo falta originales en alta.
 4. Lighthouse sobre el sitio publicado.
 5. Aviso de GitHub: `ubuntu-latest` migra a Ubuntu 26 desde el 19-oct-2026; si el build fallara por eso, fijar `runs-on: ubuntu-24.04`.
 
