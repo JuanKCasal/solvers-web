@@ -48,6 +48,9 @@ Estado vivo del proyecto. **Actualizar al final de cada sesión** (qué se hizo,
   (script `brochure/fuente/sr.py`, ncnn en CPU) y reducidas a ≤1000 px (JPEG q84; carpeta ~11 MB). Mismos nombres: sin cambios de código.
   La IA inventa algo de textura (sobre todo en caras pequeñas); los originales siguen en `fuentes/brochure/fotos/` y en el historial de git.
   Verificado: build sin advertencias, 337 enlaces/recursos sin rotos, axe 0 violaciones, 390 px OK.
+- **Proporciones corregidas:** 18 fotos extraídas de los collages del brochure original venían estiradas/achatadas (el autor las
+  ajustó sin mantener la proporción). Se llevaron a la proporción estándar más cercana (4:3, 3:4, 16:9, 9:16 o 1:1) encogiendo el lado
+  estirado: caldera-02…05, tuberia-01/03/04/05, combustible-05, civiles-a01/b03, bombas-03/04/h02/h06/h09/h11/h12. Aplicado también al brochure.
 
 **Sesión 5 (22-oct-2026)**
 - **DMARC** creado en Squarespace: `TXT _dmarc  v=DMARC1; p=none; rua=mailto:presidencia@solversindustriales.com; fo=1` (resuelve en DNS público).

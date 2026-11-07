@@ -25,3 +25,6 @@ fuentes/originales/
 
 # Brochure PDF y su material (local, NO se publica; contiene material confidencial)
 brochure/
+
+# Archivos que la app de Claude deja en la carpeta (no se publican)
+Claude outputs/
