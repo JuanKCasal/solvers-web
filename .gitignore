@@ -22,3 +22,6 @@ npm-debug.log*
 
 # Material original pesado que no se versiona
 fuentes/originales/
+
+# Brochure PDF y su material (local, NO se publica; contiene material confidencial)
+brochure/

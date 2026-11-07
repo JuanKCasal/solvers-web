@@ -4,7 +4,7 @@ import type { Localized } from './images';
 export type Service = {
   id: string;
   slug: Localized;
-  icon: 'gear' | 'wrench' | 'flame' | 'building' | 'box' | 'truck';
+  icon: 'gear' | 'wrench' | 'flame' | 'building' | 'box' | 'truck' | 'flask';
   title: Localized;
   summary: Localized;
   intro: Localized;
@@ -48,6 +48,33 @@ export const SERVICES: Service[] = [
     ],
     cover: 'tuberia-proceso/tuberia-05.jpg',
     coverAlt: L('Soldador cortando tubería de proceso', 'Welder cutting process pipe'),
+  },
+  {
+    id: 'limpieza-quimica',
+    slug: L('limpieza-quimica-industrial', 'industrial-chemical-cleaning'),
+    icon: 'flask',
+    title: L('Limpieza química industrial', 'Industrial chemical cleaning'),
+    summary: L(
+      'Limpieza y descontaminación química de torres, despojadores, calderas, hornos y líneas de proceso en paradas de planta.',
+      'Chemical cleaning and decontamination of towers, strippers, boilers, furnaces and process lines during plant shutdowns.',
+    ),
+    intro: L(
+      'Preparamos los equipos de proceso para que puedan abrirse e intervenirse con seguridad durante las paradas de planta: removemos los hidrocarburos pesados, neutralizamos el H₂S y los compuestos pirofóricos, y entregamos los equipos limpios para su inspección y mantenimiento. Nuestro personal tiene experiencia en unidades de refinación, incluida la de craqueo catalítico fluidizado (FCC).',
+      'We prepare process equipment so it can be safely opened and worked on during plant shutdowns: we remove heavy hydrocarbons, neutralize H₂S and pyrophoric compounds, and hand over clean equipment ready for inspection and maintenance. Our personnel have experience in refining units, including fluid catalytic cracking (FCC).',
+    ),
+    items: [
+      L('Limpieza y descontaminación química de equipos y líneas en paradas de planta', 'Chemical cleaning and decontamination of equipment and lines during plant shutdowns'),
+      L('Torres fraccionadoras y despojadores', 'Fractionating towers and strippers'),
+      L('Calderas y hornos industriales', 'Industrial boilers and furnaces'),
+      L('Remoción de hidrocarburos pesados por recirculación con químicos desengrasantes', 'Heavy hydrocarbon removal by recirculation with degreasing chemicals'),
+      L('Neutralización de H₂S y de compuestos pirofóricos en fase vapor', 'Vapor-phase neutralization of H₂S and pyrophoric compounds'),
+      L('Enjuague y lavado de equipos para su apertura e inspección', 'Rinsing and washing of equipment for opening and inspection'),
+    ],
+    cover: 'limpieza-quimica/caldera-haces-tubos.jpg',
+    coverAlt: L(
+      'Haces de tubos aleteados de una caldera de refinería durante una parada de planta',
+      'Finned tube bundles of a refinery boiler during a plant shutdown',
+    ),
   },
   {
     id: 'mantenimiento-mecanico',

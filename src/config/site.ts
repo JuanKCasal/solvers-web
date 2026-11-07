@@ -6,7 +6,7 @@ export const SITE = {
   legalName: 'Solvers Industriales, C.A.',
   rif: 'J-500294450',
   domain: 'solversindustriales.com',
-  email: 'solversindustriales@gmail.com',
+  email: 'contacto@solversindustriales.com',
   phones: [
     { display: '+58 412-411 4055', tel: '+584124114055', whatsapp: true },
     { display: '+58 424-402 3223', tel: '+584244023223', whatsapp: false },

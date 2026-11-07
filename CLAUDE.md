@@ -43,6 +43,7 @@ e hidrológico (clientes: PDVSA, Pequiven, Hidroven, HidroCaribe, Empresa Nacion
 | `/nosotros/` | `/en/about/` | Quiénes somos, visión (misión pendiente), experiencia del equipo |
 | `/servicios/` | `/en/services/` | Índice de líneas de servicio |
 | `/servicios/proyectos-y-mantenimiento/` | `/en/services/projects-and-maintenance/` | §4.1 |
+| `/servicios/limpieza-quimica-industrial/` | `/en/services/industrial-chemical-cleaning/` | §4.9 |
 | `/servicios/mantenimiento-mecanico/` | `/en/services/mechanical-maintenance/` | §4.3 |
 | `/servicios/refractarios-y-aislamiento-termico/` | `/en/services/refractories-and-thermal-insulation/` | §4.4 |
 | `/servicios/obras-civiles/` | `/en/services/civil-works/` | §4.5 |
@@ -61,6 +62,7 @@ solvers-web/
 ├── docs/empresa.md         # contenido de la empresa (fuente de verdad)
 ├── brand/                  # logo vectorial original (PDF) y SVG derivados
 ├── fuentes/brochure/       # brochure PDF y fotos extraídas (material crudo; no se publica)
+├── brochure/              # brochure PDF propio + material CONFIDENCIAL — ignorado por git, solo local (ver brochure/README.md)
 ├── public/                 # CNAME, robots.txt, favicon(s), og-image.jpg, logo-solvers.png
 ├── src/
 │   ├── assets/brand/       #   logos usados por el sitio
@@ -80,6 +82,7 @@ Reglas:
 - Agregar una página = crear la vista en `src/views/`, las dos rutas en `src/pages/` y la clave en `ROUTES`.
 - Agregar fotos = copiarlas a `src/assets/fotos/<categoria>/` y referenciarlas en `src/data/` (ruta relativa a `fotos/`).
 - `fuentes/` nunca se enlaza desde el sitio.
+- `brochure/` está en `.gitignore`: nunca copiar su contenido a `src/`, `public/`, `docs/` ni `fuentes/` (el repo es público).
 
 ## Identidad visual
 

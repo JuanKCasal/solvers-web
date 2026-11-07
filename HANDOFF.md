@@ -2,7 +2,7 @@
 
 Estado vivo del proyecto. **Actualizar al final de cada sesión** (qué se hizo, qué sigue, qué falta saber).
 
-## Estado actual — 07-nov-2026 (fin de sesión 5 + verificación)
+## Estado actual — 07-nov-2026 (fin de sesión 6)
 
 **Fase:** 1 · Sitio v1 publicado en **https://solversindustriales.com** con HTTPS, DMARC en monitoreo y Search Console verificado. Pendiente: formulario y contenido.
 
@@ -30,6 +30,20 @@ Estado vivo del proyecto. **Actualizar al final de cada sesión** (qué se hizo,
   (imágenes/srcset/CSS/JS) sin rotos; 404 propia funciona; `http://` y `www` redirigen a `https://solversindustriales.com/`; sin errores de consola.
 - DNS público: A ×4 de GitHub, `www` CNAME, MX Google, SPF, `google-site-verification` y DMARC `p=none` presentes.
 - No revisado: Search Console (Browser 2 no estaba conectado).
+
+**Sesión 6 (07-nov-2026) — brochure PDF (en revisión)**
+- Brochure corporativo en PDF (carta vertical, 14 págs., solo español) en `brochure/salida/brochure-solvers-2026.pdf`, con fuente
+  regenerable en `brochure/fuente/` (ver `brochure/README.md`). **`brochure/` está en `.gitignore`: nunca se publica** (contiene material confidencial).
+- Incluye sección "Limpiezas químicas y mantenimiento en refinerías" (págs. 5–8) con el caso de la parada de la **Unidad FCC de la Refinería El Palito**
+  redactado como experiencia del personal (sin año): caldera B-6102 (limpieza química y reemplazo de tubos), limpieza química de la torre
+  fraccionadora D-6202 y despojadores D-6203/D-6204 (ALC)/D-6224 (APC), y reparaciones en el separador de 3.ª etapa.
+- La presentación de terceros (`brochure/material/confidencial/`) **no se cita ni se usa** (ni fotos, esquemas, cifras ni marcas).
+- Fotos de la FCC: 8 recortadas sin caras ni logos de casco de terceros (`brochure/fuente/fcc/`).
+- v2 aprobada por Juan: fotos de la web escaladas con Real-ESRGAN, sin transparencias (un visor las pintaba rosadas), más contraste.
+- **Web:** nuevo servicio **Limpieza química industrial** (`/servicios/limpieza-quimica-industrial/`, `/en/services/industrial-chemical-cleaning/`),
+  ícono `flask`, foto `src/assets/fotos/limpieza-quimica/caldera-haces-tubos.jpg`; contadores "7 líneas de servicio".
+  Correo de la web → **contacto@solversindustriales.com**. Corregido `label-content-name-mismatch` del selector de idioma.
+  Verificado: build sin advertencias (24 páginas), 208 enlaces/recursos sin rotos, axe WCAG A/AA 0 violaciones en 9 páginas, sin scroll horizontal a 390 px.
 
 **Sesión 5 (22-oct-2026)**
 - **DMARC** creado en Squarespace: `TXT _dmarc  v=DMARC1; p=none; rua=mailto:presidencia@solversindustriales.com; fo=1` (resuelve en DNS público).
@@ -72,12 +86,13 @@ Hay **dos Chrome** con la extensión de Claude conectados. Usar `list_connected_
    Opcional: en Workspace Admin → Apps → Gmail → Autenticar correo, confirmar que DKIM está "Autenticando".
 3. **Fotos de alquiler:** pedir a Solvers fotos propias de equipos de soldadura por electrodo revestido, sandblasting (equipo de chorro) y pintura;
    hoy dos tarjetas usan ícono y Sandblasting reutiliza la foto del compresor (que también aparece en "Equipos de apoyo").
-4. Accesibilidad menor (preexistente): el enlace de idioma del header en EN tiene `aria-label="View this page in Spanish"` y texto visible distinto
+4. ~~Accesibilidad menor~~ (resuelto en sesión 6): el enlace de idioma del header en EN tiene `aria-label="View this page in Spanish"` y texto visible distinto
    → axe `label-content-name-mismatch` (WCAG 2.5.3). Incluir el texto visible en el `aria-label`.
 5. **GitHub (opcional):** activar Dependabot alerts (Settings → Security; hoy desactivado) y completar el "About" del repo
    (descripción + website `https://solversindustriales.com`).
 
 ### Pendientes generales
+0. **Correo contacto@:** confirmar que el buzón `contacto@solversindustriales.com` existe en Workspace y recibe correo (la web ya lo usa). `presidencia@` va solo en el brochure.
 1. **Formulario:** crear cuenta en Web3Forms o Formspree y poner `endpoint`/`accessKey` en `src/config/site.ts` → `CONTACT_FORM`.
 2. Revisión de textos con Solvers (versión en inglés, títulos de proyectos).
 3. Completar contenido pendiente (ver preguntas abiertas) y reemplazar fotos por originales en alta.
@@ -163,4 +178,5 @@ desde Squarespace Domains — confirmar dónde está):
 | 2026-10-22 | 4 | DNS en Squarespace → GitHub Pages; dominio propio con HTTPS forzado; dominio verificado; variables de vista previa eliminadas. |
 | 2026-10-22 | — | Comentarios de Solvers recibidos (alquiler de equipos/herramientas y Camión Pickman). Próxima sesión: DMARC, Search Console y esos cambios. |
 | 2026-10-22 | 5 | DMARC (p=none), Search Console verificado + sitemap + indexación de / y /en/; alquiler de equipos/herramientas y Camión Pickman en Maquinaria. |
+| 2026-11-07 | 6 | Brochure PDF local (ignorado por git) con sección de limpiezas químicas / FCC, aprobado (v2). Web: servicio Limpieza química industrial y correo contacto@. |
 | 2026-11-07 | — | Verificación de repo, Pages, web (22 URL, enlaces, recursos, redirecciones) y DNS: todo OK. HANDOFF listo para la sesión 6. |

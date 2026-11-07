@@ -17,7 +17,8 @@
 | RIF | J-500294450 | Logo |
 | País | Venezuela (cobertura nacional) | Lámina 2–3 |
 | Presidente | Edgar J. Hernández R. | Lámina 2 |
-| Email | solversindustriales@gmail.com | Láminas 1–2 |
+| Email (web) | contacto@solversindustriales.com (desde 07-nov-2026; antes solversindustriales@gmail.com, láminas 1–2) | Juan |
+| Email (solo brochure) | presidencia@solversindustriales.com | Juan |
 | Teléfono / WhatsApp | +58 412-411 4055 (también WhatsApp, ícono en portada) | Lámina 1, confirmado por Juan |
 | Teléfono 2 | +58 424-402 3223 | Lámina 1, confirmado por Juan |
 | Dominio | solversindustriales.com (en Google Workspace) | Juan |
@@ -25,7 +26,7 @@
 | Experiencia del equipo | 15 a 30 años en los sectores Oil & Gas e Hidrológico | Lámina 3 |
 
 Formatos para enlaces: `tel:+584124114055`, `tel:+584244023223`,
-`https://wa.me/584124114055`, `mailto:solversindustriales@gmail.com`.
+`https://wa.me/584124114055`, `mailto:contacto@solversindustriales.com`.
 
 > ⚠️ En la carta de la lámina 2 el segundo número aparece como "+58-4023223" (falta el 424). El correcto es **+58 424-402 3223**.
 
@@ -136,6 +137,13 @@ Equipo especializado que ejecuta una amplia gama de procesos de aplicación de r
 ### 4.8 Equipos de apoyo propios (lámina 19)
 - Compresor portátil.
 - Torre de iluminación portátil.
+
+### 4.9 Limpieza química industrial (Juan, 07-nov-2026)
+- Limpieza y descontaminación química de equipos y líneas en paradas de planta (torres fraccionadoras, despojadores, calderas, hornos).
+- Remoción de hidrocarburos pesados (recirculación con desengrasante), neutralización de H₂S y pirofóricos en fase vapor, enjuague y lavado.
+- Experiencia del **personal** en unidades de refinación, incluida FCC. En la web se describe de forma general (sin casos, cifras ni terceros).
+- Foto: haces de tubos de la caldera de la Unidad FCC (parada de planta), sin caras ni logos → `src/assets/fotos/limpieza-quimica/`.
+- ⚠️ No usar en la web ni en `docs/` nada de la presentación confidencial que está en `brochure/material/confidencial/` (carpeta ignorada por git).
 
 ## 5. Identidad visual
 
