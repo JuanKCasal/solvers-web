@@ -2,7 +2,7 @@
 
 Estado vivo del proyecto. **Actualizar al final de cada sesión** (qué se hizo, qué sigue, qué falta saber).
 
-## Estado actual — 22-oct-2026 (fin de sesión 5)
+## Estado actual — 07-nov-2026 (fin de sesión 5 + verificación)
 
 **Fase:** 1 · Sitio v1 publicado en **https://solversindustriales.com** con HTTPS, DMARC en monitoreo y Search Console verificado. Pendiente: formulario y contenido.
 
@@ -21,6 +21,15 @@ Estado vivo del proyecto. **Actualizar al final de cada sesión** (qué se hizo,
 - Verificado: build limpio, 0 enlaces rotos, axe-core WCAG A/AA sin violaciones, sin scroll horizontal en 390 px.
 
 **Sesión 3–4:** Pages activado, DNS en Squarespace → GitHub Pages, dominio propio verificado con HTTPS forzado (detalle abajo).
+
+**Verificación previa a la sesión 6 (07-nov-2026)** — todo OK:
+- Repo local limpio y sincronizado con `origin/main` (`a0caa2b`); sin `.lock` en `.git`.
+- GitHub: repo público; 7 ejecuciones del workflow, las 6 últimas en verde (la #1 falló antes de activar Pages); Pages con origen
+  GitHub Actions, dominio `solversindustriales.com` con "DNS check successful" y **Enforce HTTPS** activo.
+- Web: las 22 URL del sitemap responden 200 con title, description, canonical, hreflang (3) y un `h1`; 22 enlaces internos y 180 recursos
+  (imágenes/srcset/CSS/JS) sin rotos; 404 propia funciona; `http://` y `www` redirigen a `https://solversindustriales.com/`; sin errores de consola.
+- DNS público: A ×4 de GitHub, `www` CNAME, MX Google, SPF, `google-site-verification` y DMARC `p=none` presentes.
+- No revisado: Search Console (Browser 2 no estaba conectado).
 
 **Sesión 5 (22-oct-2026)**
 - **DMARC** creado en Squarespace: `TXT _dmarc  v=DMARC1; p=none; rua=mailto:presidencia@solversindustriales.com; fo=1` (resuelve en DNS público).
@@ -56,6 +65,8 @@ Hay **dos Chrome** con la extensión de Claude conectados. Usar `list_connected_
   en la VM (`tar --exclude=.git --exclude=fuentes`), `npm ci` y `npm run build` ahí.
 
 ### Tareas
+0. **Navegadores:** el 07-nov solo estaba conectado Browser 1 (ahora aparece con el nombre "ELIZABETH", mismo deviceId). Para Search Console,
+   DNS o Workspace hay que abrir el Chrome de presidencia@ (Browser 2) con la extensión.
 1. **Search Console:** confirmar que `/` y `/en/` aparecen indexadas sin el aviso de robots.txt y que el sitemap descubre las 22 URL; revisar "Páginas".
 2. **DMARC:** revisar reportes en presidencia@ durante 2–4 semanas; si SPF/DKIM pasan, subir a `p=quarantine` (y luego `p=reject`).
    Opcional: en Workspace Admin → Apps → Gmail → Autenticar correo, confirmar que DKIM está "Autenticando".
@@ -63,6 +74,8 @@ Hay **dos Chrome** con la extensión de Claude conectados. Usar `list_connected_
    hoy dos tarjetas usan ícono y Sandblasting reutiliza la foto del compresor (que también aparece en "Equipos de apoyo").
 4. Accesibilidad menor (preexistente): el enlace de idioma del header en EN tiene `aria-label="View this page in Spanish"` y texto visible distinto
    → axe `label-content-name-mismatch` (WCAG 2.5.3). Incluir el texto visible en el `aria-label`.
+5. **GitHub (opcional):** activar Dependabot alerts (Settings → Security; hoy desactivado) y completar el "About" del repo
+   (descripción + website `https://solversindustriales.com`).
 
 ### Pendientes generales
 1. **Formulario:** crear cuenta en Web3Forms o Formspree y poner `endpoint`/`accessKey` en `src/config/site.ts` → `CONTACT_FORM`.
@@ -150,3 +163,4 @@ desde Squarespace Domains — confirmar dónde está):
 | 2026-10-22 | 4 | DNS en Squarespace → GitHub Pages; dominio propio con HTTPS forzado; dominio verificado; variables de vista previa eliminadas. |
 | 2026-10-22 | — | Comentarios de Solvers recibidos (alquiler de equipos/herramientas y Camión Pickman). Próxima sesión: DMARC, Search Console y esos cambios. |
 | 2026-10-22 | 5 | DMARC (p=none), Search Console verificado + sitemap + indexación de / y /en/; alquiler de equipos/herramientas y Camión Pickman en Maquinaria. |
+| 2026-11-07 | — | Verificación de repo, Pages, web (22 URL, enlaces, recursos, redirecciones) y DNS: todo OK. HANDOFF listo para la sesión 6. |
